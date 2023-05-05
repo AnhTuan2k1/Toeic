@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:toeic/presentation/screen/category/category_page.dart';
+import 'package:toeic/presentation/screen/grammar/grammar_page.dart';
+import 'package:toeic/presentation/screen/home/home_page.dart';
+import 'package:toeic/presentation/screen/vocabulary/vocabulary_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -10,57 +14,76 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: //const HomePage(),
+      const MainForm(),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+// class MainPage extends StatelessWidget {
+//   const MainPage({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: const MainForm(),
+//     );
+//   }
+// }
+
+class MainForm extends StatefulWidget {
+  const MainForm({
+    Key? key,
+  }) : super(key: key);
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<MainForm> createState() => _MainFormState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class _MainFormState extends State<MainForm> {
+  int _currentIndex = 0;
+  final pages = [HomePage(), VocabularyPage(), GrammarPage(), CategoryPage()];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
+      body: pages[_currentIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        type: BottomNavigationBarType.fixed,
+        onTap: (newIndex) {
+          setState(() {
+            _currentIndex = newIndex;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            label: 'Home',
+            icon: Icon(Icons.home),
+          ),
+          BottomNavigationBarItem(
+            label: 'Vocabulary',
+            icon: Icon(Icons.menu_book),
+          ),
+          BottomNavigationBarItem(
+            label: 'Grammar',
+            icon: Icon(Icons.history_edu),
+          ),
+          BottomNavigationBarItem(
+            label: 'Category',
+            icon: Icon(Icons.category),
+          ),
+        ],
       ),
     );
   }
 }
+
+
+
