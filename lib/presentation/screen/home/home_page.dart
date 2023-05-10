@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:toeic/presentation/screen/home/part_card.dart';
+import 'package:toeic/presentation/screen/home/widget/part_card.dart';
 import 'package:toeic/presentation/screen/home/reading/reading_page.dart';
-import 'package:toeic/presentation/screen/home/skill_card.dart';
+import 'package:toeic/presentation/screen/home/widget/skill_card.dart';
 import 'package:toeic/presentation/screen/home/speaking/speaking_page.dart';
 import 'package:toeic/presentation/screen/home/writing/writing_page.dart';
 import 'package:toeic/src/app_resources.dart';

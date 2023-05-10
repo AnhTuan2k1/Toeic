@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../src/app_resources.dart';
-import '../part_card.dart';
+import '../widget/part_card.dart';
 
 
 class SpeakingPage extends StatelessWidget {

@@ -1,6 +1,9 @@
 
 class Images {
+  final String book = "assets/image/book.png";
+  final String note = "assets/image/note.png";
   final String home_part1 = "assets/image/home_part1.png";
+  final String home_lesson = "assets/image/home_lesson.png";
   final String home_listening = "assets/image/home_listening.png";
   final String home_reading = "assets/image/home_reading.png";
   final String home_speaking = "assets/image/home_speaking.png";
