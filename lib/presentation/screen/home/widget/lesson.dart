@@ -19,6 +19,7 @@ class Lesson extends StatelessWidget {
       child: Column(
         children: [
           Container(
+            color: Colors.white,
             padding: const EdgeInsets.fromLTRB(20, 15, 10, 15),
             child: Row(
               children: [

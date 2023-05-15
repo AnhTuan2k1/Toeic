@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:toeic/presentation/screen/home/listening/lesson_content.dart';
+import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
 import 'package:toeic/presentation/screen/home/widget/test.dart';
 
@@ -48,14 +50,13 @@ class Part1 extends StatelessWidget {
       title: "Part 1",
       content: "Photos",
       child: Column(
-        children: const [
+        children:  [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Predict what you will hear',
               heroId: 'part1_lesson1',
-              topic: ['sdagl', '216'],
-              content: ['sdhow', '44'],
+              content: [LessonContent.part1.lesson11_VN, LessonContent.part1.lesson12_VN??''],
             ),
           ),
           Lesson(
@@ -63,7 +64,6 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for correct verb',
               heroId: 'part1_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -72,7 +72,6 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for details',
               heroId: 'part1_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -81,13 +80,13 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for prepositions and similar sounds',
               heroId: 'part1_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
           Test(
             id: '1',
             title: '',
+            testPage: ListeningTestPage(title: 'Test 1',),
           ),
           Test(
             id: '2',
@@ -125,7 +124,6 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering direct question',
               heroId: 'part2_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -134,7 +132,6 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Time and location structures',
               heroId: 'part2_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -143,7 +140,6 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Languages used in requests, offers and opinions',
               heroId: 'part2_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -152,7 +148,6 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Dealing with factual question',
               heroId: 'part2_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -196,7 +191,6 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
               heroId: 'part3_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -205,7 +199,6 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Word distractors',
               heroId: 'part3_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -214,7 +207,6 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Using vocabulary clues',
               heroId: 'part3_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -223,7 +215,6 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Saying "No" and first exchange',
               heroId: 'part3_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -267,7 +258,6 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
               heroId: 'part4_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -276,7 +266,6 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: '"What" questions',
               heroId: 'part4_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -285,7 +274,6 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Restatement/Questions with numbers and quantities',
               heroId: 'part4_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -294,7 +282,6 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Restatement involving "how" and "Why" questions',
               heroId: 'part4_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),

@@ -26,6 +26,7 @@ class Test extends StatelessWidget {
                 thickness: 1,
               )),
           Container(
+            color: Colors.white,
             padding: const EdgeInsets.fromLTRB(20, 15, 10, 15),
             child: Row(
               children: [

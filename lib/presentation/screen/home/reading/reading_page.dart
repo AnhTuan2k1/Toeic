@@ -55,7 +55,6 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Part of speech',
               heroId: 'part5_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -64,7 +63,6 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Gerunds & Infinitives',
               heroId: 'part5_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -73,7 +71,6 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Suffixes and Prefixes',
               heroId: 'part5_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -82,7 +79,6 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Pronouns',
               heroId: 'part5_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -118,7 +114,6 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Using context to choose the correct verb form',
               heroId: 'part6_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -127,7 +122,6 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Choosing correct part of speech',
               heroId: 'part6_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -136,7 +130,6 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Using clues to choose correct verb form',
               heroId: 'part6_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -145,7 +138,6 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Prepositions & Conjunctions',
               heroId: 'part6_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -181,7 +173,6 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Scanning',
               heroId: 'part7_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -190,7 +181,6 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering vocabulary question annd inferring the meaning',
               heroId: 'part7_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -199,7 +189,6 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering "NOT" questions, question with name, number, date and time',
               heroId: 'part7_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -208,7 +197,6 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Dealing with chart, tables, form and double, triple passages',
               heroId: 'part7_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -244,7 +232,6 @@ class Part8 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Scanning',
               heroId: 'part8_lesson1',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -253,7 +240,6 @@ class Part8 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering vocabulary question annd inferring the meaning',
               heroId: 'part8_lesson2',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -262,7 +248,6 @@ class Part8 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering "NOT" questions, question with name, number, date and time',
               heroId: 'part8_lesson3',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),
@@ -271,7 +256,6 @@ class Part8 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Dealing with chart, tables, form and double, triple passages',
               heroId: 'part8_lesson4',
-              topic: ['sdagl', '216'],
               content: ['sdhow', '44'],
             ),
           ),

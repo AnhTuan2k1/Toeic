@@ -3,14 +3,12 @@ import 'package:toeic/src/app_resources.dart';
 
 class LessonPage extends StatelessWidget {
   const LessonPage(
-      {super.key,
-      this.topic = const [],
-      this.content = const [],
-      this.title = '',
-      this.heroId = ''});
+  {super.key,
+  this.content = const ['', ''],
+  this.title = '',
+  this.heroId = ''});
 
   final String title;
-  final List<String> topic;
   final List<String> content;
   final String heroId;
 
@@ -32,15 +30,16 @@ class LessonPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Column(
-              children: topic
-                  .map((t) => Column(
-                        children: [
-                          Text(t),
-                          Text(content.elementAt(topic.indexOf(t)))
-                        ],
-                      ))
-                  .toList()),
+          child:
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text('\n1. Question Type', style: AppResources.text_styles.h4),
+              Text('\n${content[0]}', style: AppResources.text_styles.content,),
+              Text('\n\n2. Guide to answer', style: AppResources.text_styles.h4),
+              Text('\n${content[1]}', style: AppResources.text_styles.content,)
+            ]),
+          ),
         ),
       ),
     );

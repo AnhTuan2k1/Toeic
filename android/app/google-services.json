@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "876821601873",
+    "project_id": "toeic-c58a4",
+    "storage_bucket": "toeic-c58a4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:876821601873:android:9f33180bce0ce4808ea270",
+        "android_client_info": {
+          "package_name": "com.example.toeic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "876821601873-9m511n6s1rbkqm1oq5r8alkdcr3ocod9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyWLCiDme2kAiA92qI1XG9wsRJ3IziCKo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "876821601873-9m511n6s1rbkqm1oq5r8alkdcr3ocod9.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "876821601873-pjkjkidr5a8pkn84sktskh592h6t7hkr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.toeic"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
