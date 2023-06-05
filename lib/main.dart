@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:toeic/data/di/di.dart';
 import 'package:toeic/presentation/screen/category/category_page.dart';
 import 'package:toeic/presentation/screen/grammar/grammar_page.dart';
 import 'package:toeic/presentation/screen/home/home_page.dart';
@@ -8,6 +9,7 @@ import 'package:toeic/presentation/screen/vocabulary/vocabulary_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  getItSetup();
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());

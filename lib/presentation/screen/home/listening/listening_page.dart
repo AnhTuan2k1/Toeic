@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toeic/bloc/listening/listening_cubit.dart';
 import 'package:toeic/presentation/screen/home/listening/lesson_content.dart';
 import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
+import 'package:toeic/presentation/screen/home/widget/lesson_page.dart';
+import 'package:toeic/presentation/screen/home/widget/part_card.dart';
+import 'package:toeic/presentation/screen/home/widget/snack_bar.dart';
 import 'package:toeic/presentation/screen/home/widget/test.dart';
-
-import '../../../../src/app_resources.dart';
-import '../widget/lesson_page.dart';
-import '../widget/part_card.dart';
+import 'package:toeic/src/app_resources.dart';
 
 class ListeningPage extends StatelessWidget {
   const ListeningPage({super.key});
@@ -15,14 +17,36 @@ class ListeningPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(ListeningPage.title),
+        title: const Text(ListeningPage.title),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
       ),
-      body: SingleChildScrollView(
+      body: BlocProvider(
+        create: (_) => ListeningCubit(),
+        child: const ListeningForm(),
+      ),
+    );
+  }
+}
+
+class ListeningForm extends StatelessWidget {
+  const ListeningForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return BlocListener<ListeningCubit, ListeningState>(
+      listenWhen: (previous, current) =>
+          previous.respondMsg != current.respondMsg,
+      listener: (BuildContext context, state) {
+        MySnackBar.showSnackBar(
+            message: state.respondMsg.message,
+            context: context,
+            typeMsg: state.respondMsg.typeMsg);
+      },
+      child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -50,13 +74,16 @@ class Part1 extends StatelessWidget {
       title: "Part 1",
       content: "Photos",
       child: Column(
-        children:  [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Predict what you will hear',
               heroId: 'part1_lesson1',
-              content: [LessonContent.part1.lesson11_VN, LessonContent.part1.lesson12_VN??''],
+              content: [
+                LessonContent.part1.lesson11_VN,
+                LessonContent.part1.lesson12_VN ?? ''
+              ],
             ),
           ),
           Lesson(
@@ -83,33 +110,34 @@ class Part1 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            id: '1',
-            title: '',
-            testPage: ListeningTestPage(title: 'Test 1',),
-          ),
-          Test(
-            id: '2',
-            title: '',
-          ),
-          Test(
-            id: '3',
-            title: '',
-          ),
-          Test(
-            id: '4',
-            title: '',
-          )
+          const Part1Test()
         ],
       ),
     );
   }
 }
 
+class Part1Test extends StatelessWidget {
+  const Part1Test({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ListeningCubit, ListeningState>(
+      buildWhen: (previous, current) =>
+          previous.remoteData.part1 != current.remoteData.part1 ||
+          previous.localData.part1 != current.localData.part1,
+      builder: (BuildContext context, state) {
+        print('----------Part1Test built---------------------');
+        return Column(
+            children: getTest(
+                state.localData.part1, state.remoteData.part1, 'part1'));
+      },
+    );
+  }
+}
+
 class Part2 extends StatelessWidget {
-  const Part2({
-    Key? key,
-  }) : super(key: key);
+  const Part2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -151,32 +179,34 @@ class Part2 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            id: '1',
-            title: '',
-          ),
-          Test(
-            id: '2',
-            title: '',
-          ),
-          Test(
-            id: '3',
-            title: '',
-          ),
-          Test(
-            id: '4',
-            title: '',
-          )
+          Part2Test()
         ],
       ),
     );
   }
 }
 
+class Part2Test extends StatelessWidget {
+  const Part2Test({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ListeningCubit, ListeningState>(
+      buildWhen: (previous, current) =>
+          previous.remoteData.part2 != current.remoteData.part2 ||
+          previous.localData.part2 != current.localData.part2,
+      builder: (BuildContext context, state) {
+        print('----------Part2Test built---------------------');
+        return Column(
+            children: getTest(
+                state.localData.part2, state.remoteData.part2, 'part2'));
+      },
+    );
+  }
+}
+
 class Part3 extends StatelessWidget {
-  const Part3({
-    Key? key,
-  }) : super(key: key);
+  const Part3({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -218,32 +248,34 @@ class Part3 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            id: '1',
-            title: '',
-          ),
-          Test(
-            id: '2',
-            title: '',
-          ),
-          Test(
-            id: '3',
-            title: '',
-          ),
-          Test(
-            id: '4',
-            title: '',
-          )
+          Part3Test()
         ],
       ),
     );
   }
 }
 
+class Part3Test extends StatelessWidget {
+  const Part3Test({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ListeningCubit, ListeningState>(
+      buildWhen: (previous, current) =>
+          previous.remoteData.part3 != current.remoteData.part3 ||
+          previous.localData.part3 != current.localData.part3,
+      builder: (BuildContext context, state) {
+        print('----------Part3Test built---------------------');
+        return Column(
+            children: getTest(
+                state.localData.part3, state.remoteData.part3, 'part3'));
+      },
+    );
+  }
+}
+
 class Part4 extends StatelessWidget {
-  const Part4({
-    Key? key,
-  }) : super(key: key);
+  const Part4({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -285,28 +317,58 @@ class Part4 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            id: '1',
-            title: '',
-          ),
-          Test(
-            id: '2',
-            title: '',
-          ),
-          Test(
-            id: '3',
-            title: '',
-          ),
-          Test(
-            id: '4',
-            title: '',
-          )
+          Part4Test()
         ],
       ),
     );
   }
 }
 
+class Part4Test extends StatelessWidget {
+  const Part4Test({Key? key}) : super(key: key);
 
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ListeningCubit, ListeningState>(
+      buildWhen: (previous, current) =>
+          previous.remoteData.part4 != current.remoteData.part4 ||
+          previous.localData.part4 != current.localData.part4,
+      builder: (BuildContext context, state) {
+        print('----------Part4Test built---------------------');
+        return Column(
+            children: getTest(
+                state.localData.part4, state.remoteData.part4, 'part4'));
+      },
+    );
+  }
+}
 
+List<Test> getTest(
+    List<String> localData, List<String> remoteData, String part) {
+  List<Test> tests = [];
+  for (var element in localData) {
+    tests.add(Test(
+      title: (tests.length + 1).toString(),
+      testPage: ListeningTestPage(
+        title: (tests.length + 1).toString(),
+        fileName: element,
+        part: part,
+        isDownloaded: true,
+      ),
+    ));
+  }
+  for (var element in remoteData) {
+    if (localData.contains(element)) continue;
+    tests.add(Test(
+      title: (tests.length + 1).toString(),
+      testPage: ListeningTestPage(
+        title: (tests.length + 1).toString(),
+        fileName: element,
+        part: part,
+        isDownloaded: false,
+      ),
+    ));
+  }
 
+  return tests;
+}

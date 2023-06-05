@@ -1,22 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toeic/bloc/listening/listening_cubit.dart';
+import 'package:toeic/presentation/screen/home/widget/dialog.dart';
 import 'package:toeic/presentation/screen/home/widget/test_page.dart';
-
-import '../../../../src/app_resources.dart';
+import 'package:toeic/src/app_resources.dart';
 
 class Test extends StatelessWidget {
   const Test(
-  {super.key, required this.id, this.title = '', this.testPage});
+      {super.key,
+      this.title = '',
+      this.testPage = const TestPage(
+        fileName: '',
+        part: '',
+      )});
 
-  final String id;
   final String title;
-  final TestPage? testPage;
+  final TestPage testPage;
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => testPage ?? const TestPage())),
+      onTap: () => {
+        if (testPage.isDownloaded)
+          {
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => testPage))
+          }
+        else if (testPage.fileName != '')
+          {
+            showDialogProgress(context, msg: 'downloading resource'),
+            context
+                .read<ListeningCubit>()
+                .downloadData(testPage.fileName, testPage.part)
+                .then((value) => {Navigator.of(context).pop()})
+          }
+      },
       child: Column(
         children: [
           const Padding(
@@ -37,10 +56,13 @@ class Test extends StatelessWidget {
                 const SizedBox(width: 10),
                 Expanded(
                     child: Text(
-                      'Test $id $title',
-                      style: const TextStyle(
-                          fontWeight: FontWeight.w500, fontSize: 16),
-                    ))
+                  'Test $title',
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w500, fontSize: 16),
+                )),
+                testPage.isDownloaded
+                    ? const SizedBox(width: 1)
+                    : const Icon(Icons.cloud_download_outlined),
               ],
             ),
           ),

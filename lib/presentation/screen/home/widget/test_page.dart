@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
 
 class TestPage extends StatelessWidget {
-  const TestPage(
-  {super.key,
-  this.title = ''});
+  const TestPage({
+    super.key,
+    required this.fileName,
+    required this.part,
+    this.title = '',
+    this.isDownloaded = false,
+  });
 
+  final String fileName;
   final String title;
+  final String part;
+  final bool isDownloaded;
 
   @override
   Widget build(BuildContext context) {

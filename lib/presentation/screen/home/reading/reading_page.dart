@@ -83,12 +83,10 @@ class Part5 extends StatelessWidget {
             ),
           ),
           Test(
-            id: '1',
-            title: '',
+            title: '1',
           ),
           Test(
-            id: '2',
-            title: '',
+            title: '2',
           ),
         ],
       ),
@@ -142,12 +140,10 @@ class Part6 extends StatelessWidget {
             ),
           ),
           Test(
-            id: '1',
-            title: '',
+            title: '1',
           ),
           Test(
-            id: '2',
-            title: '',
+            title: '2',
           ),
         ],
       ),
@@ -201,12 +197,10 @@ class Part7 extends StatelessWidget {
             ),
           ),
           Test(
-            id: '1',
-            title: '',
+            title: '1',
           ),
           Test(
-            id: '2',
-            title: '',
+            title: '2',
           ),
         ],
       ),
@@ -260,12 +254,10 @@ class Part8 extends StatelessWidget {
             ),
           ),
           Test(
-            id: '1',
-            title: '',
+            title: '1',
           ),
           Test(
-            id: '2',
-            title: '',
+            title: '2',
           ),
         ],
       ),
