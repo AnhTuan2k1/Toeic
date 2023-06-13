@@ -193,7 +193,7 @@ class Part6Test extends StatelessWidget {
         return Column(
             children: getTest(
                 state.localData.part2, state.remoteData.part2, 'part6',
-                numQ: 10));
+                numQ: 12));
       },
     );
   }
@@ -207,7 +207,7 @@ class Part7 extends StatelessWidget {
   Widget build(BuildContext context) {
     return PartCard(
       imagePath: AppResources.images.reading_part8,
-      title: "Part8",
+      title: "Part7",
       content: "Single, multi Passages",
       child: Column(
         children: const [
@@ -215,7 +215,7 @@ class Part7 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Scanning',
-              heroId: 'part8_lesson1',
+              heroId: 'part7_lesson1',
               content: ['sdhow', '44'],
             ),
           ),
@@ -223,7 +223,7 @@ class Part7 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Answering vocabulary question annd inferring the meaning',
-              heroId: 'part8_lesson2',
+              heroId: 'part7_lesson2',
               content: ['sdhow', '44'],
             ),
           ),
@@ -231,7 +231,7 @@ class Part7 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Answering "NOT" questions, question with name, number, date and time',
-              heroId: 'part8_lesson3',
+              heroId: 'part7_lesson3',
               content: ['sdhow', '44'],
             ),
           ),
@@ -239,7 +239,7 @@ class Part7 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Dealing with chart, tables, form and double, triple passages',
-              heroId: 'part8_lesson4',
+              heroId: 'part7_lesson4',
               content: ['sdhow', '44'],
             ),
           ),

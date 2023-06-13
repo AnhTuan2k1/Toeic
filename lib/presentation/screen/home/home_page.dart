@@ -16,11 +16,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocProvider(
-        create: (_) => ProgressCubit(),
-        child: const HomeForm(),
-      ),
+    return const Scaffold(
+      body: HomeForm(),
     );
   }
 }
@@ -45,7 +42,7 @@ class HomeForm extends StatelessWidget{
             title: 'Listening',
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const ListeningPage())),
-            content: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            //content: "",
           ),
           SkillCard(
             imagePath: AppResources.images.home_reading,

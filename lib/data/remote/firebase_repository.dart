@@ -143,7 +143,17 @@ class FirebaseRepository {
     dynamic contents = jsonDecode(jsonString);
     final exam = ExamQuestion.fromJson(contents);
 
-    count += exam.questions.length - 1;
+    //download image
+    final questions = exam.questions;
+    if(exam.id != ''){
+      for (int i =0; i< questions.length;i++) {
+        if (questions[i].image != null) {
+          String path = '${exam.id}/image/${questions[i].id}${questions[i].image}';
+          await _downloadAndSaveFile(path).then((value) => controller.add(++count));
+          questions[i].image = path;
+        }
+      }
+    }
 
     //write file to internal storage
     return getIt<InternalStorage>().writeTestFile(filePath, exam);

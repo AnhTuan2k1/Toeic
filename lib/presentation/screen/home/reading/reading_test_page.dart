@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/reading/reading_test_cubit.dart';
@@ -11,12 +12,12 @@ import 'package:toeic/src/app_resources.dart';
 
 class ReadingTestPage extends TestPage {
   const ReadingTestPage(
-  {super.key,
-  required super.fileName,
-  required super.part,
-  super.title,
-  super.isDownloaded,
-  super.numQuestion});
+      {super.key,
+      required super.fileName,
+      required super.part,
+      super.title,
+      super.isDownloaded,
+      super.numQuestion});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class ReadingTestForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<ReadingTestCubit, ReadingTestState>(
       listenWhen: (previous, current) =>
-      previous.respondMsg != current.respondMsg,
+          previous.respondMsg != current.respondMsg,
       listener: (BuildContext context, state) {
         MySnackBar.showSnackBar(
             message: state.respondMsg.message,
@@ -53,7 +54,9 @@ class ReadingTestForm extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
-                  SizedBox(height: 50,),
+                  SizedBox(
+                    height: 50,
+                  ),
                   _ImageAndContent(),
                   SizedBox(height: 20),
                   _QuestionAndAnswers(),
@@ -104,8 +107,8 @@ class _ChangeQuestion extends StatelessWidget {
           return GestureDetector(
             onTap: () => handleChangeQuestion(context, state).then((value) =>
                 context.read<ReadingTestCubit>().changeToQuestion(value)),
-            child:
-            const SizedBox(width: 50, height: 50, child: Icon(Icons.apps_sharp)),
+            child: const SizedBox(
+                width: 50, height: 50, child: Icon(Icons.apps_sharp)),
           );
         });
   }
@@ -128,31 +131,30 @@ class _QuestionProgress extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ReadingTestCubit, ReadingTestState>(
-
         builder: (context, state) {
-          if (state.examQuestion.questions.isEmpty) return const SizedBox();
-          int selectedQuestions = 0;
-          for (var element in state.examQuestion.questions) {
-            if(element.selectedAnswerId != null) selectedQuestions++;
-          }
-          final totalQuestion = state.examQuestion.questions.length;
-          return Row(
-            children: [
-              // Text(
-              //   '$selectedQuestions/$totalQuestion',
-              //   style: AppResources.text_styles.h4,
-              // ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: LinearProgressIndicator(
-                  backgroundColor: Colors.black12,
-                  value: selectedQuestions / (totalQuestion - 1),
-                ),
-              ),
-              const SizedBox(width: 10),
-            ],
-          );
-        });
+      if (state.examQuestion.questions.isEmpty) return const SizedBox();
+      int selectedQuestions = 0;
+      for (var element in state.examQuestion.questions) {
+        if (element.selectedAnswerId != null) selectedQuestions++;
+      }
+      final totalQuestion = state.examQuestion.questions.length;
+      return Row(
+        children: [
+          // Text(
+          //   '$selectedQuestions/$totalQuestion',
+          //   style: AppResources.text_styles.h4,
+          // ),
+          const SizedBox(width: 10),
+          Expanded(
+            child: LinearProgressIndicator(
+              backgroundColor: Colors.black12,
+              value: selectedQuestions / (totalQuestion - 1),
+            ),
+          ),
+          const SizedBox(width: 10),
+        ],
+      );
+    });
   }
 }
 
@@ -163,18 +165,20 @@ class _QuestionAndAnswers extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReadingTestCubit, ReadingTestState>(
       buildWhen: (previous, current) =>
-      previous.currentQuestion != current.currentQuestion,
+          previous.currentQuestion != current.currentQuestion,
       builder: (BuildContext context, state) {
         var q = state.examQuestion.questions;
         if (q.isNotEmpty) {
-          return _buildQuestionAndAnswers(q, q[state.currentQuestion].id, context);
+          return _buildQuestionAndAnswers(
+              q, q[state.currentQuestion].id, context);
         } else
           return const SizedBox();
       },
     );
   }
 
-  _buildQuestionAndAnswers(List<Question> questions, String id, BuildContext context) {
+  _buildQuestionAndAnswers(
+      List<Question> questions, String id, BuildContext context) {
     List<Widget> list = [];
     var qs = questions.where((element) => element.id == id).toList();
     for (var element in qs) {
@@ -212,7 +216,7 @@ class _ButtonNextPrevious extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<ReadingTestCubit, ReadingTestState>(
       buildWhen: (previous, current) =>
-      previous.currentQuestion != current.currentQuestion ||
+          previous.currentQuestion != current.currentQuestion ||
           previous.chooseAnswer != current.chooseAnswer,
       builder: (BuildContext context, state) {
         if (state.examQuestion.questions.isEmpty) return const SizedBox();
@@ -237,9 +241,9 @@ class _ButtonNextPrevious extends StatelessWidget {
                         ),
                         title: FittedBox(
                             child: Text(
-                              'Previous',
-                              textAlign: TextAlign.center,
-                            )),
+                          'Previous',
+                          textAlign: TextAlign.center,
+                        )),
                       )),
                 )),
             Expanded(
@@ -254,9 +258,9 @@ class _ButtonNextPrevious extends StatelessWidget {
                       child: const ListTile(
                         title: FittedBox(
                             child: Text(
-                              'Next',
-                              textAlign: TextAlign.center,
-                            )),
+                          'Next',
+                          textAlign: TextAlign.center,
+                        )),
                         trailing: Icon(
                           Icons.east_outlined,
                           color: Colors.deepPurpleAccent,
@@ -271,7 +275,7 @@ class _ButtonNextPrevious extends StatelessWidget {
 
   bool checkSelectedAnswer(List<Question> questions, int index) {
     return questions.any((element) =>
-    element.id == questions[index].id && element.selectedAnswerId == null);
+        element.id == questions[index].id && element.selectedAnswerId == null);
   }
 }
 
@@ -282,26 +286,42 @@ class _ImageAndContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final image = context.select((ReadingTestCubit bloc) => bloc.state.image);
     return BlocBuilder<ReadingTestCubit, ReadingTestState>(
-      buildWhen: (previous, current) => previous.image != current.image,
+      buildWhen: (previous, current) =>
+          previous.currentQuestion != current.currentQuestion,
       builder: (BuildContext context, state) {
         if (state.examQuestion.questions.isEmpty) return const SizedBox();
-        return Column(
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                state.examQuestion.questions[state.currentQuestion].content,
-                style: const TextStyle(fontSize: 15),
+        final questions = state.examQuestion.questions;
+        return Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            children: [
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  getMainQuestion(
+                          questions, questions[state.currentQuestion].id)
+                      .content,
+                  style: const TextStyle(fontSize: 17),
+                ),
               ),
-            ),
-            image == null ? const SizedBox() : Image.memory(image)
-          ],
+              image == null ? const SizedBox() : Image.memory(image),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  getMainQuestion(
+                          questions, questions[state.currentQuestion].id)
+                      .otherContent,
+                  style: const TextStyle(fontSize: 17),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );
   }
+
+  Question getMainQuestion(List<Question> questions, String questionId) {
+    return questions.firstWhere((element) => element.id == questionId);
+  }
 }
-
-
-
-
