@@ -1,7 +1,7 @@
-part of 'listening_test_cubit.dart';
+part of 'test_cubit.dart';
 
-class ListeningTestState extends Equatable {
-  ListeningTestState({
+class TestState extends Equatable {
+  TestState({
     required this.examQuestion,
     this.isPlaying = false,
     this.duration = Duration.zero,
@@ -10,16 +10,18 @@ class ListeningTestState extends Equatable {
     this.image,
     this.currentQuestion = 0,
     required this.respondMsg,
+    this.chooseAnswer = false,
   });
 
   final bool isPlaying;
   final Duration duration;
   final Duration position;
-  final Uint8List? audio;
-  final Uint8List? image;
+  Uint8List? audio;
+  Uint8List? image;
   ExamQuestion examQuestion;
   int currentQuestion;
   ResponseMessage respondMsg;
+  final bool chooseAnswer;
 
   @override
   List<Object?> get props => [
@@ -30,10 +32,11 @@ class ListeningTestState extends Equatable {
         image,
         examQuestion,
         currentQuestion,
-        respondMsg
+        respondMsg,
+        chooseAnswer
       ];
 
-  ListeningTestState copyWith({
+  TestState copyWith({
     AudioPlayer? audioPlayer,
     ExamQuestion? examQuestion,
     bool? isPlaying,
@@ -43,8 +46,9 @@ class ListeningTestState extends Equatable {
     Uint8List? image,
     int? currentQuestion,
     ResponseMessage? respondMsg,
+    bool? chooseAnswer,
   }) {
-    return ListeningTestState(
+    return TestState(
         examQuestion: examQuestion ?? this.examQuestion,
         isPlaying: isPlaying ?? this.isPlaying,
         duration: duration ?? this.duration,
@@ -52,6 +56,7 @@ class ListeningTestState extends Equatable {
         audio: audio ?? this.audio,
         image: image ?? this.image,
         currentQuestion: currentQuestion ?? this.currentQuestion,
-        respondMsg: respondMsg ?? this.respondMsg);
+        respondMsg: respondMsg ?? this.respondMsg,
+        chooseAnswer: chooseAnswer ?? this.chooseAnswer);
   }
 }

@@ -127,10 +127,10 @@ class Part1Test extends StatelessWidget {
           previous.remoteData.part1 != current.remoteData.part1 ||
           previous.localData.part1 != current.localData.part1,
       builder: (BuildContext context, state) {
-        print('----------Part1Test built---------------------');
         return Column(
             children: getTest(
-                state.localData.part1, state.remoteData.part1, 'part1'));
+                state.localData.part1, state.remoteData.part1, 'part1',
+                numQ: 7));
       },
     );
   }
@@ -196,10 +196,10 @@ class Part2Test extends StatelessWidget {
           previous.remoteData.part2 != current.remoteData.part2 ||
           previous.localData.part2 != current.localData.part2,
       builder: (BuildContext context, state) {
-        print('----------Part2Test built---------------------');
         return Column(
             children: getTest(
-                state.localData.part2, state.remoteData.part2, 'part2'));
+                state.localData.part2, state.remoteData.part2, 'part2',
+                numQ: 6));
       },
     );
   }
@@ -265,10 +265,10 @@ class Part3Test extends StatelessWidget {
           previous.remoteData.part3 != current.remoteData.part3 ||
           previous.localData.part3 != current.localData.part3,
       builder: (BuildContext context, state) {
-        print('----------Part3Test built---------------------');
         return Column(
             children: getTest(
-                state.localData.part3, state.remoteData.part3, 'part3'));
+                state.localData.part3, state.remoteData.part3, 'part3',
+                numQ: 10));
       },
     );
   }
@@ -334,17 +334,16 @@ class Part4Test extends StatelessWidget {
           previous.remoteData.part4 != current.remoteData.part4 ||
           previous.localData.part4 != current.localData.part4,
       builder: (BuildContext context, state) {
-        print('----------Part4Test built---------------------');
         return Column(
             children: getTest(
-                state.localData.part4, state.remoteData.part4, 'part4'));
+                state.localData.part4, state.remoteData.part4, 'part4', numQ: 10));
       },
     );
   }
 }
 
-List<Test> getTest(
-    List<String> localData, List<String> remoteData, String part) {
+List<Test> getTest(List<String> localData, List<String> remoteData, String part,
+    {int? numQ}) {
   List<Test> tests = [];
   for (var element in localData) {
     tests.add(Test(
@@ -354,6 +353,7 @@ List<Test> getTest(
         fileName: element,
         part: part,
         isDownloaded: true,
+        numQuestion: numQ,
       ),
     ));
   }
@@ -366,6 +366,7 @@ List<Test> getTest(
         fileName: element,
         part: part,
         isDownloaded: false,
+        numQuestion: numQ,
       ),
     ));
   }

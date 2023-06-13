@@ -14,6 +14,7 @@ class Question {
   int correctAnswerId;
   int? selectedAnswerId;
   String explanation;
+  String title;
 
   Question(
       {required this.id,
@@ -24,7 +25,8 @@ class Question {
       required this.answers,
       required this.correctAnswerId,
       this.selectedAnswerId,
-      this.explanation = ''});
+      this.explanation = '',
+      this.title = ''});
 
   factory Question.fromJson(Map<String, dynamic> json) => _$QuestionFromJson(json);
   Map<String, dynamic> toJson() => _$QuestionToJson(this);

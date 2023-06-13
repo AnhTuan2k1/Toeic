@@ -7,12 +7,14 @@ class TestPage extends StatelessWidget {
     required this.part,
     this.title = '',
     this.isDownloaded = false,
+    this.numQuestion,
   });
 
   final String fileName;
   final String title;
   final String part;
   final bool isDownloaded;
+  final int? numQuestion;
 
   @override
   Widget build(BuildContext context) {

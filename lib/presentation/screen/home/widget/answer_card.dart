@@ -1,13 +1,15 @@
-
-
+import 'package:expandable/expandable.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toeic/bloc/test/test_cubit.dart';
 import 'package:toeic/data/model/question.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AnswerCards extends StatefulWidget {
   const AnswerCards(
       {this.submited = false,
-        required this.question,
-        Key? key})
+      required this.question,
+      Key? key})
       : super(key: key);
   final Question question;
   final bool submited;
@@ -20,20 +22,12 @@ class _AnswerCardsState extends State<AnswerCards> {
   @override
   Widget build(BuildContext context) {
     List<Widget> list = <Widget>[];
-    list.add(SizedBox(
-      height: 20,
-    ));
+
     list.addAll((widget.question.answers.map(
-          (e) => Container(
-        padding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
+      (e) => Container(
+        padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: Card(
             elevation: 0.0,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(
-                  color: getColor(widget.question, e.id, round: true),
-                  width: 1),
-              borderRadius: BorderRadius.circular(10.0),
-            ),
             color: getColor(widget.question, e.id),
             child: ListTile(
               leading: Container(
@@ -47,7 +41,7 @@ class _AnswerCardsState extends State<AnswerCards> {
                     ),
                     borderRadius: const BorderRadius.all(Radius.circular(100))),
                 child: Text(
-                  e.id.toString(),
+                  convertABC(e.id),
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontWeight: FontWeight.bold),
                 ),
@@ -58,13 +52,47 @@ class _AnswerCardsState extends State<AnswerCards> {
                 setState(() {
                   widget.question.selectedAnswerId = e.id;
                 });
+                context.read<TestCubit>().selectedAnswerChanged();
               },
             )),
       ),
     )));
 
-    list.add(SizedBox(
-      height: 100,
+    list.add(Container(
+      margin: const EdgeInsets.all(15),
+      color: Colors.white,
+      child: ExpandablePanel(
+          collapsed: ExpandableButton(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Padding(padding: EdgeInsets.all(15), child: Text('Explanation')),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Icon(Icons.arrow_drop_down),
+                  ),
+                ],
+              )),
+          expanded: ExpandableButton(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: const [
+                  Padding(
+                      padding: EdgeInsets.all(15), child: Text('Explanation:')),
+                  Padding(
+                    padding: EdgeInsets.only(right: 8),
+                    child: Icon(Icons.arrow_drop_up),
+                  ),
+                ],
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(left: 15),
+                  child: Text(widget.question.explanation)),
+            ],
+          ))),
     ));
 
     return Column(children: list);
@@ -76,13 +104,26 @@ class _AnswerCardsState extends State<AnswerCards> {
         return const Icon(Icons.check_circle, color: Colors.green);
       else
         return const Icon(Icons.dangerous, color: Colors.red);
-    }
-
-    else if (question.selectedAnswerId == id) {
+    } else if (question.selectedAnswerId == id) {
       if (question.correctAnswerId == id)
         return const Icon(Icons.check_circle, color: Colors.green);
       else
         return const Icon(Icons.dangerous, color: Colors.red);
+    }
+  }
+
+  String convertABC(int num) {
+    switch (num) {
+      case 1:
+        return 'A';
+      case 2:
+        return 'B';
+      case 3:
+        return 'C';
+      case 4:
+        return 'D';
+      default:
+        return '0';
     }
   }
 
@@ -98,5 +139,4 @@ class _AnswerCardsState extends State<AnswerCards> {
       return Colors.white;
     }
   }
-
 }

@@ -69,4 +69,12 @@ class InternalStorage{
   Future<File> writeListeningInfoFile(ExamData examData) async{
     return _writeInfoFile('/ToeicTest/listening.json', examData);
   }
+
+  Future<ExamData> readReadingInfoFile() async{
+    return _readInfoFile('/ToeicTest/reading.json');
+  }
+
+  Future<File> writeReadingInfoFile(ExamData examData) async{
+    return _writeInfoFile('/ToeicTest/reading.json', examData);
+  }
 }

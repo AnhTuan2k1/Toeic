@@ -2,10 +2,12 @@ import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/application/convert.dart';
-import 'package:toeic/bloc/listening/listening_test_cubit.dart';
+import 'package:toeic/bloc/test/test_cubit.dart';
+import 'package:toeic/data/model/question.dart';
 import 'package:toeic/presentation/screen/home/widget/answer_card.dart';
+import 'package:toeic/presentation/screen/home/widget/dialog.dart';
 import 'package:toeic/presentation/screen/home/widget/test_page.dart';
-import 'package:toeic/presentation/widget/card_background.dart';
+import 'package:toeic/src/app_resources.dart';
 
 class ListeningTestPage extends TestPage {
   const ListeningTestPage(
@@ -13,19 +15,19 @@ class ListeningTestPage extends TestPage {
       required super.fileName,
       required super.part,
       super.title,
-      super.isDownloaded});
+      super.isDownloaded,
+      super.numQuestion});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text('Test $title'),
-          elevation: 0,
           backgroundColor: Colors.white,
           foregroundColor: Colors.black87,
         ),
         body: BlocProvider(
-          create: (_) => ListeningTestCubit(part, fileName, AudioPlayer()),
+          create: (_) => TestCubit(part, fileName, AudioPlayer()),
           child: const ListeningTestForm(),
         ));
   }
@@ -38,7 +40,7 @@ class ListeningTestForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        context.read<ListeningTestCubit>().closing();
+        context.read<TestCubit>().closing();
         return true;
       },
       child: Stack(
@@ -47,6 +49,7 @@ class ListeningTestForm extends StatelessWidget {
             child: SafeArea(
               child: Column(
                 children: [
+                  SizedBox(height: 50,),
                   Row(
                     children: [
                       _IsPlayingIcon(),
@@ -61,20 +64,38 @@ class ListeningTestForm extends StatelessWidget {
                       ))
                     ],
                   ),
-                  CardBackGround(
-                    margin: EdgeInsets.all(10.0),
-                    child: _ImageAndContent(),
-                  ),
-                  QuestionAndAnswers(),
+                  _ImageAndContent(),
+                  SizedBox(height: 20),
+                  _QuestionAndAnswers(),
+                  SizedBox(height: 100)
                 ],
               ),
             ),
           ),
           Positioned(
-            bottom: 30.0,
+            top: 0,
+            left: 1,
+            right: 1,
+            child: Container(
+              color: Colors.white,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: _QuestionProgress()),
+                  ),
+                  _ChangeQuestion()
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            height: 100,
+            bottom: 0.0,
             left: 20,
             right: 20,
-            child: _ButtonChangeQuestion(),
+            child: _ButtonNextPrevious(),
           ),
         ],
       ),
@@ -82,77 +103,211 @@ class ListeningTestForm extends StatelessWidget {
   }
 }
 
-class QuestionAndAnswers extends StatelessWidget {
-  const QuestionAndAnswers({Key? key}) : super(key: key);
+class _ChangeQuestion extends StatelessWidget {
+  const _ChangeQuestion({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    return BlocBuilder<TestCubit, TestState>(
+        buildWhen: (_, __) => false,
+        builder: (context, state) {
+          return GestureDetector(
+            onTap: () => handleChangeQuestion(context, state).then((value) =>
+                context.read<TestCubit>().changeToQuestion(value)),
+            child:
+                SizedBox(width: 50, height: 50, child: Icon(Icons.apps_sharp)),
+          );
+        });
+  }
+
+  Future<int?> handleChangeQuestion(
+      BuildContext context, TestState state) async {
+    return showDialog<int>(
+        context: context,
+        builder: (context) {
+          return ChangeQuestionDialog(
+              questions: state.examQuestion.questions,
+              submited: state.examQuestion.submited);
+        });
+  }
+}
+
+class _QuestionProgress extends StatelessWidget {
+  const _QuestionProgress({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TestCubit, TestState>(
+
+        builder: (context, state) {
+          if (state.examQuestion.questions.isEmpty) return const SizedBox();
+          int selectedQuestions = 0;
+          for (var element in state.examQuestion.questions) {
+            if(element.selectedAnswerId != null) selectedQuestions++;
+          }
+          final totalQuestion = state.examQuestion.questions.length;
+          return Row(
+            children: [
+              // Text(
+              //   '$selectedQuestions/$totalQuestion',
+              //   style: AppResources.text_styles.h4,
+              // ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: LinearProgressIndicator(
+                  backgroundColor: Colors.black12,
+                  value: selectedQuestions / (totalQuestion - 1),
+                ),
+              ),
+              const SizedBox(width: 10),
+            ],
+          );
+        });
+  }
+}
+
+class _QuestionAndAnswers extends StatelessWidget {
+  const _QuestionAndAnswers({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TestCubit, TestState>(
       buildWhen: (previous, current) =>
           previous.currentQuestion != current.currentQuestion,
       builder: (BuildContext context, state) {
-        return state.examQuestion.questions.isNotEmpty
-            ? AnswerCards(
-                question: state.examQuestion.questions[state.currentQuestion],
-              )
-            : const SizedBox();
+        var q = state.examQuestion.questions;
+        if (q.isNotEmpty) {
+          List<Widget> list = [];
+          _buildQuestionAndAnswers(list, q, state.currentQuestion, true);
+          _buildQuestionAndAnswers(list, q, state.currentQuestion, false,
+              isAdd: false);
+          return Column(children: list);
+        } else
+          return const SizedBox();
       },
+    );
+  }
+
+  _buildQuestionAndAnswers(List<Widget> list, List<Question> questions,
+      int addQuestionIndex, bool isNext,
+      {bool isAdd = true}) {
+    //add current questionAndAnswer
+    if (isAdd) {
+      if (isNext) {
+        list.add(buildwidget(questions[addQuestionIndex]));
+      } else {
+        list.insert(0, buildwidget(questions[addQuestionIndex]));
+      }
+    }
+
+    if (isNext) {
+      if (addQuestionIndex < questions.length - 1) {
+        //add next questionAndAnswer
+        if (questions[addQuestionIndex].id ==
+            questions[addQuestionIndex + 1].id) {
+          _buildQuestionAndAnswers(
+              list, questions, addQuestionIndex + 1, isNext);
+        }
+      }
+    } else {
+      if (addQuestionIndex > 0) {
+        //add previous questionAndAnswer
+        if (questions[addQuestionIndex].id ==
+            questions[addQuestionIndex - 1].id) {
+          _buildQuestionAndAnswers(
+              list, questions, addQuestionIndex - 1, isNext);
+        }
+      }
+    }
+  }
+
+  Column buildwidget(Question question) {
+    return Column(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          child: SizedBox(
+              width: double.infinity,
+              child: Text(
+                question.title,
+                style: AppResources.text_styles.h3,
+              )),
+        ),
+        AnswerCards(
+          question: question,
+        )
+      ],
     );
   }
 }
 
-class _ButtonChangeQuestion extends StatelessWidget {
-  const _ButtonChangeQuestion({
-    Key? key,
-  }) : super(key: key);
+class _ButtonNextPrevious extends StatelessWidget {
+  const _ButtonNextPrevious({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-            flex: 7,
-            child: Card(
-              shadowColor: Colors.white10,
-              color: Colors.transparent,
-              child: OutlinedButton(
-                  onPressed: () =>
-                      context.read<ListeningTestCubit>().previousQuestion(),
-                  child: const ListTile(
-                    leading: Icon(
-                      Icons.west_outlined,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                    title: FittedBox(
-                        child: Text(
-                      'Previous',
-                      textAlign: TextAlign.center,
-                    )),
-                  )),
-            )),
-        Expanded(
-            flex: 6,
-            child: Card(
-              shadowColor: Colors.white10,
-              color: Colors.transparent,
-              margin: const EdgeInsets.only(left: 10.0),
-              child: OutlinedButton(
-                  onPressed: () =>
-                      context.read<ListeningTestCubit>().nextQuestion(),
-                  child: const ListTile(
-                    title: FittedBox(
-                        child: Text(
-                      'Next',
-                      textAlign: TextAlign.center,
-                    )),
-                    trailing: Icon(
-                      Icons.east_outlined,
-                      color: Colors.deepPurpleAccent,
-                    ),
-                  )),
-            ))
-      ],
+    return BlocBuilder<TestCubit, TestState>(
+      buildWhen: (previous, current) =>
+          previous.currentQuestion != current.currentQuestion ||
+          previous.chooseAnswer != current.chooseAnswer,
+      builder: (BuildContext context, state) {
+        if (state.examQuestion.questions.isEmpty) return const SizedBox();
+        if (checkSelectedAnswer(
+            state.examQuestion.questions, state.currentQuestion)) {
+          return const SizedBox();
+        }
+        return Row(
+          children: [
+            Expanded(
+                flex: 7,
+                child: Card(
+                  shadowColor: Colors.white10,
+                  color: Colors.transparent,
+                  child: OutlinedButton(
+                      onPressed: () =>
+                          context.read<TestCubit>().previousQuestion(),
+                      child: const ListTile(
+                        leading: Icon(
+                          Icons.west_outlined,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                        title: FittedBox(
+                            child: Text(
+                          'Previous',
+                          textAlign: TextAlign.center,
+                        )),
+                      )),
+                )),
+            Expanded(
+                flex: 6,
+                child: Card(
+                  shadowColor: Colors.white10,
+                  color: Colors.transparent,
+                  margin: const EdgeInsets.only(left: 10.0),
+                  child: OutlinedButton(
+                      onPressed: () =>
+                          context.read<TestCubit>().nextQuestion(),
+                      child: const ListTile(
+                        title: FittedBox(
+                            child: Text(
+                          'Next',
+                          textAlign: TextAlign.center,
+                        )),
+                        trailing: Icon(
+                          Icons.east_outlined,
+                          color: Colors.deepPurpleAccent,
+                        ),
+                      )),
+                ))
+          ],
+        );
+      },
     );
+  }
+
+  bool checkSelectedAnswer(List<Question> questions, int index) {
+    return questions.any((element) =>
+        element.id == questions[index].id && element.selectedAnswerId == null);
   }
 }
 
@@ -161,26 +316,21 @@ class _ImageAndContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final image = context.select((ListeningTestCubit bloc) => bloc.state.image);
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    final image = context.select((TestCubit bloc) => bloc.state.image);
+    return BlocBuilder<TestCubit, TestState>(
       buildWhen: (previous, current) => previous.image != current.image,
       builder: (BuildContext context, state) {
+        if (state.examQuestion.questions.isEmpty) return const SizedBox();
         return Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Question ${state.currentQuestion + 1}',
-                  style: const TextStyle(fontSize: 15),
-                ),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                state.examQuestion.questions[state.currentQuestion].content,
+                style: const TextStyle(fontSize: 15),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 10),
-              child: image == null ? const SizedBox() : Image.memory(image),
-            )
+            image == null ? const SizedBox() : Image.memory(image)
           ],
         );
       },
@@ -189,20 +339,18 @@ class _ImageAndContent extends StatelessWidget {
 }
 
 class _IsPlayingIcon extends StatelessWidget {
-  const _IsPlayingIcon({
-    Key? key,
-  }) : super(key: key);
+  const _IsPlayingIcon({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    return BlocBuilder<TestCubit, TestState>(
         buildWhen: (previous, current) =>
             previous.isPlaying != current.isPlaying,
         builder: (context, state) {
           return Padding(
             padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
-              onTap: () => context.read<ListeningTestCubit>().isPlayingChange(),
+              onTap: () => context.read<TestCubit>().isPlayingChange(),
               child: state.isPlaying
                   ? const Icon(
                       Icons.play_circle,
@@ -221,13 +369,11 @@ class _IsPlayingIcon extends StatelessWidget {
 }
 
 class _DurationText extends StatelessWidget {
-  const _DurationText({
-    Key? key,
-  }) : super(key: key);
+  const _DurationText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    return BlocBuilder<TestCubit, TestState>(
         buildWhen: (previous, current) => previous.duration != current.duration,
         builder: (context, state) {
           return Padding(
@@ -239,13 +385,11 @@ class _DurationText extends StatelessWidget {
 }
 
 class _PositionText extends StatelessWidget {
-  const _PositionText({
-    Key? key,
-  }) : super(key: key);
+  const _PositionText({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    return BlocBuilder<TestCubit, TestState>(
         buildWhen: (previous, current) => previous.position != current.position,
         builder: (context, state) {
           return Padding(
@@ -257,13 +401,11 @@ class _PositionText extends StatelessWidget {
 }
 
 class _AudioSlider extends StatelessWidget {
-  const _AudioSlider({
-    Key? key,
-  }) : super(key: key);
+  const _AudioSlider({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ListeningTestCubit, ListeningTestState>(
+    return BlocBuilder<TestCubit, TestState>(
         buildWhen: (previous, current) =>
             previous.duration != current.duration ||
             previous.position != current.position,
@@ -273,7 +415,7 @@ class _AudioSlider extends StatelessWidget {
               max: state.duration.inSeconds.toDouble(),
               value: state.position.inSeconds.toDouble(),
               onChanged: (value) => context
-                  .read<ListeningTestCubit>()
+                  .read<TestCubit>()
                   .audioPositionChanged(value));
         });
   }

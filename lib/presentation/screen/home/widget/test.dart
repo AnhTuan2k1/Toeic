@@ -29,11 +29,18 @@ class Test extends StatelessWidget {
           }
         else if (testPage.fileName != '')
           {
-            showDialogProgress(context, msg: 'downloading resource'),
+            showDialogProgress(context,
+                msg: 'downloading resource', numQuestion: testPage.numQuestion),
+
             context
                 .read<ListeningCubit>()
                 .downloadData(testPage.fileName, testPage.part)
-                .then((value) => {Navigator.of(context).pop()})
+                .then((value) => {
+                      Navigator.of(context).pop(),
+                      if (value)
+                        Navigator.of(context).push(
+                            MaterialPageRoute(builder: (context) => testPage))
+                    })
           }
       },
       child: Column(

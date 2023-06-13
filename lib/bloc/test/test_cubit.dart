@@ -8,14 +8,13 @@ import 'package:toeic/data/di/di.dart';
 import 'package:toeic/data/local/internal_storage.dart';
 import 'package:toeic/data/model/exam_question.dart';
 
-part 'listening_test_state.dart';
+part 'test_state.dart';
 
-class ListeningTestCubit extends Cubit<ListeningTestState> {
-  ListeningTestCubit(this.part, this.fileName, this.audioPlayer)
-      : super(ListeningTestState(
+class TestCubit extends Cubit<TestState> {
+  TestCubit(this.part, this.fileName, this.audioPlayer)
+      : super(TestState(
             examQuestion: ExamQuestion(id: ''),
             respondMsg: ResponseMessage())) {
-    ;
     Future.delayed(
         const Duration(
           milliseconds: 100,
@@ -83,31 +82,65 @@ class ListeningTestCubit extends Cubit<ListeningTestState> {
     audioPlayer.dispose();
   }
 
-  void changeToQuestion(int index) async {
-    audioPlayer.pause();
-    int numquestion = state.examQuestion.questions.length;
+  void changeToQuestion(int? index) async {
+    if (index == null) return;
+    final questions = state.examQuestion.questions;
+    int numquestion = questions.length;
     if (0 > index || index >= numquestion) return;
     emit(state.copyWith(currentQuestion: index));
+    audioPlayer.pause();
 
-    final imagePath = state.examQuestion.questions[index].image;
+    final mainQuestion =
+        questions.firstWhere((element) => element.id == questions[index].id);
+    final imagePath = mainQuestion.image;
+    print('---------------------------------------');
+    print(imagePath);
     if (imagePath != null) {
       emit(state.copyWith(
           image: await getIt.get<InternalStorage>().readData(imagePath)));
+    }else{
+      state.image = null;
+      emit(state);
     }
 
-    final audioPath = state.examQuestion.questions[index].audio;
+    final audioPath = mainQuestion.audio;
     if (audioPath != null) {
       emit(state.copyWith(
           isPlaying: false,
+          position: Duration.zero,
+          duration: Duration.zero,
           audio: await getIt.get<InternalStorage>().readData(audioPath)));
+    }else{
+      state.audio = null;
+      emit(state);
     }
 
     _setAudioSource();
   }
 
-  nextQuestion() => changeToQuestion(state.currentQuestion + 1);
+  nextQuestion() {
+    final q = state.examQuestion.questions;
+    if (state.currentQuestion < q.length - 1) {
+      if (q[state.currentQuestion].id != q[state.currentQuestion + 1].id) {
+        changeToQuestion(state.currentQuestion + 1);
+      } else {
+        state.currentQuestion++;
+        nextQuestion();
+      }
+    }
+  }
 
-  previousQuestion() => changeToQuestion(state.currentQuestion - 1);
+  previousQuestion() {
+    final q = state.examQuestion.questions;
+    if (state.currentQuestion > 0) {
+      if (q[state.currentQuestion].id != q[state.currentQuestion - 1].id) {
+        changeToQuestion(state.currentQuestion - 1);
+      } else {
+        state.currentQuestion--;
+        previousQuestion();
+      }
+    }
+  }
 
   void showMessage(String msg, {TypeMsg typeMsg = TypeMsg.info}) {
     state.respondMsg.message = '';
@@ -118,5 +151,9 @@ class ListeningTestCubit extends Cubit<ListeningTestState> {
   void audioPositionChanged(double value) {
     final position = Duration(seconds: value.toInt());
     audioPlayer.seek(position);
+  }
+
+  selectedAnswerChanged() {
+    emit(state.copyWith(chooseAnswer: !state.chooseAnswer));
   }
 }
