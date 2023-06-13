@@ -8,11 +8,11 @@ import 'package:toeic/data/di/di.dart';
 import 'package:toeic/data/local/internal_storage.dart';
 import 'package:toeic/data/model/exam_question.dart';
 
-part 'test_state.dart';
+part 'listening_test_state.dart';
 
-class TestCubit extends Cubit<TestState> {
-  TestCubit(this.part, this.fileName, this.audioPlayer)
-      : super(TestState(
+class ListeningTestCubit extends Cubit<ListeningTestState> {
+  ListeningTestCubit(this.part, this.fileName, this.audioPlayer)
+      : super(ListeningTestState(
             examQuestion: ExamQuestion(id: ''),
             respondMsg: ResponseMessage())) {
     Future.delayed(
@@ -93,8 +93,6 @@ class TestCubit extends Cubit<TestState> {
     final mainQuestion =
         questions.firstWhere((element) => element.id == questions[index].id);
     final imagePath = mainQuestion.image;
-    print('---------------------------------------');
-    print(imagePath);
     if (imagePath != null) {
       emit(state.copyWith(
           image: await getIt.get<InternalStorage>().readData(imagePath)));

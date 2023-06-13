@@ -70,6 +70,10 @@ class InternalStorage{
     return _writeInfoFile('/ToeicTest/listening.json', examData);
   }
 
+  Future<ExamQuestion> readReadingTestFile(String part, String fileName) async{
+    return readTestFile('/ToeicTest/reading/$part/$fileName');
+  }
+
   Future<ExamData> readReadingInfoFile() async{
     return _readInfoFile('/ToeicTest/reading.json');
   }

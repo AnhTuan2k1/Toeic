@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/listening/listening_cubit.dart';
+import 'package:toeic/bloc/reading/reading_cubit.dart';
+import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
+import 'package:toeic/presentation/screen/home/reading/reading_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/dialog.dart';
 import 'package:toeic/presentation/screen/home/widget/test_page.dart';
 import 'package:toeic/src/app_resources.dart';
@@ -32,15 +35,30 @@ class Test extends StatelessWidget {
             showDialogProgress(context,
                 msg: 'downloading resource', numQuestion: testPage.numQuestion),
 
-            context
-                .read<ListeningCubit>()
-                .downloadData(testPage.fileName, testPage.part)
-                .then((value) => {
-                      Navigator.of(context).pop(),
-                      if (value)
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => testPage))
-                    })
+            if(testPage is ListeningTestPage){
+              context
+                  .read<ListeningCubit>()
+                  .downloadData(testPage.fileName, testPage.part)
+                  .then((value) => {
+                Navigator.of(context).pop(),
+                if (value)
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => testPage))
+              })
+            }
+            else if(testPage is ReadingTestPage){
+              context
+                  .read<ReadingCubit>()
+                  .downloadData(testPage.fileName, testPage.part)
+                  .then((value) => {
+                Navigator.of(context).pop(),
+                if (value)
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => testPage))
+              })
+            }
+            else Navigator.of(context).pop(),
+
           }
       },
       child: Column(

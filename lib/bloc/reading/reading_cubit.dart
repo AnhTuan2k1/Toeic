@@ -43,9 +43,6 @@ class ReadingCubit extends Cubit<ReadingState> {
     ExamData localdata = state.localData;
     try {
       localdata = await getIt.get<InternalStorage>().readReadingInfoFile();
-      print('----------------------data---------local------------->');
-      print(localdata.toJson());
-      print('----------------------data-----------local-----------<');
     } catch (e) {
 
     }
@@ -58,9 +55,6 @@ class ReadingCubit extends Cubit<ReadingState> {
       if (await InternetConnectionChecker().hasConnection) {
         remotedata = await getIt.get<FirebaseRepository>().readReadingFile();
       }
-      print('----------------------data-----------remote----------->');
-      print(remotedata.toJson());
-      print('----------------------data-------------remote---------<');
     } catch (e) {
       showMessage(e.toString(), typeMsg: TypeMsg.error);
     }

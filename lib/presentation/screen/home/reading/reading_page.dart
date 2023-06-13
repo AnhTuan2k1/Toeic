@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/reading/reading_cubit.dart';
-import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
+import 'package:toeic/presentation/screen/home/reading/reading_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson_page.dart';
 import 'package:toeic/presentation/screen/home/widget/part_card.dart';
+import 'package:toeic/presentation/screen/home/widget/snack_bar.dart';
 import 'package:toeic/presentation/screen/home/widget/test.dart';
 import 'package:toeic/src/app_resources.dart';
 
@@ -35,19 +36,26 @@ class ReadingForm extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    return SingleChildScrollView(
-      child: Container(
-        //color: Colors.green,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: size.height * 0.03),
-            Part5(),
-            Part6(),
-            Part7(),
-          ],
-        ),
-      ),
+    return BlocListener<ReadingCubit, ReadingState>(
+        listenWhen: (previous, current) =>
+        previous.respondMsg != current.respondMsg,
+        listener: (BuildContext context, state) {
+          MySnackBar.showSnackBar(
+              message: state.respondMsg.message,
+              context: context,
+              typeMsg: state.respondMsg.typeMsg);
+        },
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: size.height * 0.03),
+              Part5(),
+              Part6(),
+              Part7(),
+            ],
+          ),
+        )
     );
   }
 
@@ -165,14 +173,28 @@ class Part6 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            title: '1',
-          ),
-          Test(
-            title: '2',
-          ),
+          Part6Test()
         ],
       ),
+    );
+  }
+}
+
+class Part6Test extends StatelessWidget {
+  const Part6Test({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReadingCubit, ReadingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part2 != current.remoteData.part2 ||
+          previous.localData.part2 != current.localData.part2,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part2, state.remoteData.part2, 'part6',
+                numQ: 10));
+      },
     );
   }
 }
@@ -221,14 +243,28 @@ class Part7 extends StatelessWidget {
               content: ['sdhow', '44'],
             ),
           ),
-          Test(
-            title: '1',
-          ),
-          Test(
-            title: '2',
-          ),
+          Part7Test()
         ],
       ),
+    );
+  }
+}
+
+class Part7Test extends StatelessWidget {
+  const Part7Test({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ReadingCubit, ReadingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part3 != current.remoteData.part3 ||
+          previous.localData.part3 != current.localData.part3,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part3, state.remoteData.part3, 'part7',
+                numQ: 10));
+      },
     );
   }
 }
@@ -239,7 +275,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   for (var element in localData) {
     tests.add(Test(
       title: (tests.length + 1).toString(),
-      testPage: ListeningTestPage(
+      testPage: ReadingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
         part: part,
@@ -252,7 +288,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
     if (localData.contains(element)) continue;
     tests.add(Test(
       title: (tests.length + 1).toString(),
-      testPage: ListeningTestPage(
+      testPage: ReadingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
         part: part,

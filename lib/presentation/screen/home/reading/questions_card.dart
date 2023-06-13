@@ -1,30 +1,32 @@
-import 'package:expandable/expandable.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:toeic/bloc/test/test_cubit.dart';
-import 'package:toeic/data/model/question.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AnswerCards extends StatefulWidget {
-  const AnswerCards(
+
+
+import 'package:expandable/expandable.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toeic/bloc/reading/reading_test_cubit.dart';
+import 'package:toeic/data/model/question.dart';
+
+class QuestionsCards extends StatefulWidget {
+  const QuestionsCards(
       {this.submited = false,
-      required this.question,
-      Key? key})
+        required this.question,
+        Key? key})
       : super(key: key);
   final Question question;
   final bool submited;
 
   @override
-  State<AnswerCards> createState() => _AnswerCardsState();
+  State<QuestionsCards> createState() => _QuestionsCardsState();
 }
 
-class _AnswerCardsState extends State<AnswerCards> {
+class _QuestionsCardsState extends State<QuestionsCards> {
   @override
   Widget build(BuildContext context) {
     List<Widget> list = <Widget>[];
 
     list.addAll((widget.question.answers.map(
-      (e) => Container(
+          (e) => Container(
         padding: const EdgeInsets.fromLTRB(10.0, 0.0, 10.0, 0.0),
         child: Card(
             elevation: 0.0,
@@ -52,7 +54,7 @@ class _AnswerCardsState extends State<AnswerCards> {
                 setState(() {
                   widget.question.selectedAnswerId = e.id;
                 });
-                context.read<TestCubit>().selectedAnswerChanged();
+                context.read<ReadingTestCubit>().selectedAnswerChanged();
               },
             )),
       ),
@@ -75,24 +77,24 @@ class _AnswerCardsState extends State<AnswerCards> {
               )),
           expanded: ExpandableButton(
               child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Padding(
-                      padding: EdgeInsets.all(15), child: Text('Explanation:')),
-                  Padding(
-                    padding: EdgeInsets.only(right: 8),
-                    child: Icon(Icons.arrow_drop_up),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: const [
+                      Padding(
+                          padding: EdgeInsets.all(15), child: Text('Explanation:')),
+                      Padding(
+                        padding: EdgeInsets.only(right: 8),
+                        child: Icon(Icons.arrow_drop_up),
+                      ),
+                    ],
                   ),
+                  Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(widget.question.explanation)),
                 ],
-              ),
-              Padding(
-                  padding: const EdgeInsets.only(left: 15),
-                  child: Text(widget.question.explanation)),
-            ],
-          ))),
+              ))),
     ));
 
     return Column(children: list);

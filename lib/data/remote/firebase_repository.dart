@@ -95,12 +95,11 @@ class FirebaseRepository {
     }
 
     //write file to internal storage
-    final test = await getIt<InternalStorage>().writeTestFile(filePath, exam);
-    controller.add(++count);
+    final test = getIt<InternalStorage>().writeTestFile(filePath, exam);
 
     // when all tasks are done then return
     return countstream()
-        .firstWhere((element) => element == i + 2)
+        .firstWhere((element) => element == i + 1)
         .then<File>((value) => test);
   }
 
@@ -136,6 +135,7 @@ class FirebaseRepository {
     String filePath = '/ToeicTest/reading/$part/$fileName';
     final data = await _downloadInMemories(filePath);
 
+    ++count;
     controller.add(++count);
 
     // Read the file
@@ -143,16 +143,10 @@ class FirebaseRepository {
     dynamic contents = jsonDecode(jsonString);
     final exam = ExamQuestion.fromJson(contents);
 
-    controller.add(++count);
+    count += exam.questions.length - 1;
 
     //write file to internal storage
-    final test = await getIt<InternalStorage>().writeTestFile(filePath, exam);
-    controller.add(++count);
-
-    // when all tasks are done then return
-    return countstream()
-        .firstWhere((element) => element == 3)
-        .then<File>((value) => test);
+    return getIt<InternalStorage>().writeTestFile(filePath, exam);
   }
 
 // Future<bool> _downloadFileTest(String path) async {
