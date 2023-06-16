@@ -20,7 +20,7 @@ class _Question12 {
   final String lesson31_VN =
       'Nội dung thường gặp nhất trong phần này là đọc một mẫu quảng cáo sản phẩm advertisement) và thông báo hướng dẫn ở nơi nào đó (announcement), có khi cũng đọc một chương trình phát thanh hay tin nhắn ghi âm';
   final String lesson32_VN =
-      'Tên trong tiếng Anh rất phức tạp, do đó đói lúc người Việt chúng ta không biết phát âm thế nào cho đúng. Đặc biệt, Mỹ là nơi có rất nhiều dân nhập cư đến từ khắp nơi trên thế giới nên tên của người Mỹ cũng vô cùng đa dạng. Vấn đề còn phức tạp hơn vì ở các nước nói tiếng Anh, những tên riêng này được phát âm rất khác so với cách phát âm của ngôn ngữ gốc.\n\nTrong các cuộc đàm thoại thực tế, bạn đừng ngại hỏi cách phát ầm những tên lạ. Đây là một điều bình thường mà ai cũng cần phải làm.\n\nNếu bạn gặp những tên lạ trong bài thi thì bạn cứ có gắng phát âm rõ ràng nhất có thể. Dĩ nhiên, tốt nhất vẫn là biết được cách phát âm chính xác những tên riêng thường gặp.';
+      'Tên trong tiếng Anh rất phức tạp, do đó đôi lúc người Việt chúng ta không biết phát âm thế nào cho đúng. Đặc biệt, Mỹ là nơi có rất nhiều dân nhập cư đến từ khắp nơi trên thế giới nên tên của người Mỹ cũng vô cùng đa dạng. Vấn đề còn phức tạp hơn vì ở các nước nói tiếng Anh, những tên riêng này được phát âm rất khác so với cách phát âm của ngôn ngữ gốc.\n\nTrong các cuộc đàm thoại thực tế, bạn đừng ngại hỏi cách phát ầm những tên lạ. Đây là một điều bình thường mà ai cũng cần phải làm.\n\nNếu bạn gặp những tên lạ trong bài thi thì bạn cứ có gắng phát âm rõ ràng nhất có thể. Dĩ nhiên, tốt nhất vẫn là biết được cách phát âm chính xác những tên riêng thường gặp.';
 }
 
 class _Question34 {
