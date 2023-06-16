@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/listening/listening_cubit.dart';
-import 'package:toeic/presentation/screen/home/listening/lesson_content.dart';
+import 'package:toeic/presentation/screen/home/listening/lesson_content_listening.dart';
 import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson_page.dart';
@@ -81,8 +81,8 @@ class Part1 extends StatelessWidget {
               title: 'Predict what you will hear',
               heroId: 'part1_lesson1',
               content: [
-                LessonContent.part1.lesson11_VN,
-                LessonContent.part1.lesson12_VN ?? ''
+                LessonContentListening.part1.lesson11_VN,
+                LessonContentListening.part1.lesson12_VN
               ],
             ),
           ),
@@ -91,7 +91,10 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for correct verb',
               heroId: 'part1_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part1.lesson21_VN,
+                LessonContentListening.part1.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -99,7 +102,10 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for details',
               heroId: 'part1_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part1.lesson31_VN,
+                LessonContentListening.part1.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -107,7 +113,10 @@ class Part1 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Listen for prepositions and similar sounds',
               heroId: 'part1_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part1.lesson41_VN,
+                LessonContentListening.part1.lesson42_VN
+              ],
             ),
           ),
           const Part1Test()
@@ -146,13 +155,16 @@ class Part2 extends StatelessWidget {
       title: "Part 2",
       content: "Question & Response",
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Answering direct question',
               heroId: 'part2_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part2.lesson11_VN,
+                LessonContentListening.part2.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -160,7 +172,10 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Time and location structures',
               heroId: 'part2_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part2.lesson21_VN,
+                LessonContentListening.part2.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -168,7 +183,10 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Languages used in requests, offers and opinions',
               heroId: 'part2_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part2.lesson31_VN,
+                LessonContentListening.part2.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -176,7 +194,10 @@ class Part2 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Dealing with factual question',
               heroId: 'part2_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part2.lesson41_VN,
+                LessonContentListening.part2.lesson42_VN
+              ],
             ),
           ),
           Part2Test()
@@ -215,13 +236,16 @@ class Part3 extends StatelessWidget {
       title: "Part 3",
       content: "Conversations",
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
               heroId: 'part3_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part3.lesson11_VN,
+                LessonContentListening.part3.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -229,7 +253,10 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Word distractors',
               heroId: 'part3_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part3.lesson21_VN,
+                LessonContentListening.part3.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -237,7 +264,10 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Using vocabulary clues',
               heroId: 'part3_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part3.lesson31_VN,
+                LessonContentListening.part3.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -245,7 +275,10 @@ class Part3 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Saying "No" and first exchange',
               heroId: 'part3_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part3.lesson41_VN,
+                LessonContentListening.part3.lesson42_VN
+              ],
             ),
           ),
           Part3Test()
@@ -284,13 +317,16 @@ class Part4 extends StatelessWidget {
       title: "Part 4",
       content: 'Short talk',
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
               heroId: 'part4_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part4.lesson11_VN,
+                LessonContentListening.part4.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -298,7 +334,10 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: '"What" questions',
               heroId: 'part4_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part4.lesson21_VN,
+                LessonContentListening.part4.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -306,7 +345,10 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Restatement/Questions with numbers and quantities',
               heroId: 'part4_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part4.lesson31_VN,
+                LessonContentListening.part4.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -314,7 +356,10 @@ class Part4 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Restatement involving "how" and "Why" questions',
               heroId: 'part4_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentListening.part4.lesson41_VN,
+                LessonContentListening.part4.lesson42_VN
+              ],
             ),
           ),
           Part4Test()
@@ -336,7 +381,8 @@ class Part4Test extends StatelessWidget {
       builder: (BuildContext context, state) {
         return Column(
             children: getTest(
-                state.localData.part4, state.remoteData.part4, 'part4', numQ: 10));
+                state.localData.part4, state.remoteData.part4, 'part4',
+                numQ: 10));
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/reading/reading_cubit.dart';
+import 'package:toeic/presentation/screen/home/reading/lesson_content_reading.dart';
 import 'package:toeic/presentation/screen/home/reading/reading_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson_page.dart';
@@ -71,13 +72,16 @@ class Part5 extends StatelessWidget {
       title: "Part5",
       content: "Incomplete sentences",
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Part of speech',
               heroId: 'part5_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part5.lesson11_VN,
+                LessonContentReading.part5.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -85,7 +89,10 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Gerunds & Infinitives',
               heroId: 'part5_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part5.lesson21_VN,
+                LessonContentReading.part5.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -93,15 +100,20 @@ class Part5 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Suffixes and Prefixes',
               heroId: 'part5_lesson3',
-              content: ['sdhow', '44'],
-            ),
+              content: [
+                LessonContentReading.part5.lesson31_VN,
+                LessonContentReading.part5.lesson32_VN
+              ],            ),
           ),
           Lesson(
             id: '4',
             lessonPage: LessonPage(
               title: 'Pronouns',
               heroId: 'part5_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part5.lesson41_VN,
+                LessonContentReading.part5.lesson42_VN
+              ],
             ),
           ),
           Part5Test()
@@ -140,13 +152,16 @@ class Part6 extends StatelessWidget {
       title: "Part6",
       content: "Text completion",
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Using context to choose the correct verb form',
               heroId: 'part6_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part6.lesson11_VN,
+                LessonContentReading.part6.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -154,7 +169,10 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Choosing correct part of speech',
               heroId: 'part6_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part6.lesson21_VN,
+                LessonContentReading.part6.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -162,7 +180,10 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Using clues to choose correct verb form',
               heroId: 'part6_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part6.lesson31_VN,
+                LessonContentReading.part6.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -170,7 +191,10 @@ class Part6 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Prepositions & Conjunctions',
               heroId: 'part6_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part6.lesson41_VN,
+                LessonContentReading.part6.lesson42_VN
+              ],
             ),
           ),
           Part6Test()
@@ -210,13 +234,16 @@ class Part7 extends StatelessWidget {
       title: "Part7",
       content: "Single, multi Passages",
       child: Column(
-        children: const [
+        children: [
           Lesson(
             id: '1',
             lessonPage: LessonPage(
               title: 'Scanning',
               heroId: 'part7_lesson1',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part7.lesson11_VN,
+                LessonContentReading.part7.lesson12_VN
+              ],
             ),
           ),
           Lesson(
@@ -224,7 +251,10 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering vocabulary question annd inferring the meaning',
               heroId: 'part7_lesson2',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part7.lesson21_VN,
+                LessonContentReading.part7.lesson22_VN
+              ],
             ),
           ),
           Lesson(
@@ -232,7 +262,10 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Answering "NOT" questions, question with name, number, date and time',
               heroId: 'part7_lesson3',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part7.lesson31_VN,
+                LessonContentReading.part7.lesson32_VN
+              ],
             ),
           ),
           Lesson(
@@ -240,7 +273,10 @@ class Part7 extends StatelessWidget {
             lessonPage: LessonPage(
               title: 'Dealing with chart, tables, form and double, triple passages',
               heroId: 'part7_lesson4',
-              content: ['sdhow', '44'],
+              content: [
+                LessonContentReading.part7.lesson41_VN,
+                LessonContentReading.part7.lesson42_VN
+              ],
             ),
           ),
           Part7Test()
