@@ -16,8 +16,8 @@ part 'reading_state.dart';
 class ReadingCubit extends Cubit<ReadingState> {
   ReadingCubit()
       : super(ReadingState(
-            localData: ExamData(part1: [], part2: [], part3: [], part4: []),
-            remoteData: ExamData(part1: [], part2: [], part3: [], part4: []),
+            localData: ExamData(part1: [], part2: [], part3: [], part4: [], part5: []),
+            remoteData: ExamData(part1: [], part2: [], part3: [], part4: [], part5: []),
             respondMsg: ResponseMessage())) {
     Future.delayed(
         const Duration(
@@ -77,7 +77,7 @@ class ReadingCubit extends Cubit<ReadingState> {
       _writeData(state.localData);
 
       //emit
-      state.localData = ExamData(part1: [], part2: [], part3: [], part4: []);
+      state.localData = ExamData(part1: [], part2: [], part3: [], part4: [], part5: []);
       emit(state.copyWith(localData: localData));
 
       return true;

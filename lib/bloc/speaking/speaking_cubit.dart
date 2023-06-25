@@ -11,11 +11,11 @@ import 'package:toeic/data/local/internal_storage.dart';
 import 'package:toeic/data/model/exam_data.dart';
 import 'package:toeic/data/remote/firebase_repository.dart';
 
-part 'listening_state.dart';
+part 'speaking_state.dart';
 
-class ListeningCubit extends Cubit<ListeningState> {
-  ListeningCubit()
-      : super(ListeningState(
+class SpeakingCubit extends Cubit<SpeakingState> {
+  SpeakingCubit()
+      : super(SpeakingState(
             localData:
                 ExamData(part1: [], part2: [], part3: [], part4: [], part5: []),
             remoteData:
@@ -29,13 +29,10 @@ class ListeningCubit extends Cubit<ListeningState> {
   }
 
   Future<void> _initData() async {
-    Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) async {
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) async {
       if (result != ConnectivityResult.none) {
         if (await InternetConnectionChecker().hasConnection) {
-          _getRemoteData()
-              .then((value) => emit(state.copyWith(remoteData: value)));
+          _getRemoteData().then((value) => emit(state.copyWith(remoteData: value)));
         }
       }
     });
@@ -47,12 +44,9 @@ class ListeningCubit extends Cubit<ListeningState> {
   Future<ExamData> _getInternalData() async {
     ExamData localdata = state.localData;
     try {
-      localdata = await getIt.get<InternalStorage>().readListeningInfoFile();
-      print('----------------------data---------local------------->');
-      print(localdata.toJson());
-      print('----------------------data-----------local-----------<');
+      localdata = await getIt.get<InternalStorage>().readSpeakingInfoFile();
     } catch (e) {
-      //handleExeption(e.toString());
+      //showMessage(e.toString());
     }
     return localdata;
   }
@@ -61,15 +55,11 @@ class ListeningCubit extends Cubit<ListeningState> {
     ExamData remotedata = state.remoteData;
     try {
       if (await InternetConnectionChecker().hasConnection) {
-        remotedata = await getIt.get<FirebaseRepository>().readListeningFile();
+        remotedata = await getIt.get<FirebaseRepository>().readSpeakingFile();
       }
-      print('----------------------data-----------remote----------->');
-      print(remotedata.toJson());
-      print('----------------------data-------------remote---------<');
     } catch (e) {
       showMessage(e.toString(), typeMsg: TypeMsg.error);
     }
-
     return remotedata;
   }
 
@@ -83,7 +73,7 @@ class ListeningCubit extends Cubit<ListeningState> {
       //download and save changes
       await getIt
           .get<FirebaseRepository>()
-          .downloadListeningTest(part: part, fileName: fileName);
+          .downloadSpeakingTest(part: part, fileName: fileName);
       final localData = addpartlocal(part, fileName);
       _writeData(state.localData);
 
@@ -100,7 +90,7 @@ class ListeningCubit extends Cubit<ListeningState> {
   }
 
   Future<void> _writeData(ExamData examData) async {
-    getIt.get<InternalStorage>().writeListeningInfoFile(examData);
+    getIt.get<InternalStorage>().writeSpeakingInfoFile(examData);
   }
 
   void showMessage(String msg, {TypeMsg typeMsg = TypeMsg.info}) {
@@ -111,17 +101,20 @@ class ListeningCubit extends Cubit<ListeningState> {
 
   ExamData addpartlocal(String part, String fileName) {
     switch (part) {
-      case 'part1':
+      case 'q12':
         state.localData.part1.add(fileName);
         break;
-      case 'part2':
+      case 'q34':
         state.localData.part2.add(fileName);
         break;
-      case 'part3':
+      case 'q57':
         state.localData.part3.add(fileName);
         break;
-      case 'part4':
+      case 'q810':
         state.localData.part4.add(fileName);
+        break;
+      case 'q11':
+        state.localData.part5.add(fileName);
         break;
     }
     return state.localData;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:json_annotation/json_annotation.dart';
 import 'package:toeic/data/model/answer.dart';
 
@@ -10,8 +12,13 @@ class Question {
   String otherContent;
   String? audio;
   String? image;
+
+  @JsonKey(defaultValue: [])
   List<Answer> answers;
+
+  @JsonKey(defaultValue: 0)
   int correctAnswerId;
+
   int? selectedAnswerId;
   String explanation;
   String title;

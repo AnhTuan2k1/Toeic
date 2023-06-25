@@ -1,42 +1,68 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:toeic/bloc/speaking/speaking_cubit.dart';
 import 'package:toeic/presentation/screen/home/speaking/lesson_content_speaking.dart';
 import 'package:toeic/presentation/screen/home/speaking/process.dart';
 import 'package:toeic/presentation/screen/home/speaking/scoring.dart';
 import 'package:toeic/presentation/screen/home/speaking/speaking_lesson_page.dart';
+import 'package:toeic/presentation/screen/home/speaking/speaking_test_page.dart';
 import 'package:toeic/presentation/screen/home/speaking/summary.dart';
 import 'package:toeic/presentation/screen/home/widget/lesson.dart';
 import 'package:toeic/presentation/screen/home/widget/part_card.dart';
+import 'package:toeic/presentation/screen/home/widget/snack_bar.dart';
+import 'package:toeic/presentation/screen/home/widget/test.dart';
 import 'package:toeic/src/app_resources.dart';
 
 class SpeakingPage extends StatelessWidget {
   const SpeakingPage({super.key});
-
-  static const String title = "Speaking";
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: const Text('Speaking'),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black87,
       ),
-      body: SingleChildScrollView(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: size.height * 0.03),
-              _Question12(),
-              _Question34(),
-              _Question57(),
-              _Question810(),
-              _Question11()
-            ],
-          ),
-        ),
+      body: BlocProvider(
+        create: (_) => SpeakingCubit(),
+        child: const SpeakingForm(),
       ),
+    );
+  }
+}
+
+class SpeakingForm extends StatelessWidget {
+  const SpeakingForm({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
+    return BlocListener<SpeakingCubit, SpeakingState>(
+        listenWhen: (previous, current) =>
+        previous.respondMsg != current.respondMsg,
+        listener: (BuildContext context, state) {
+          MySnackBar.showSnackBar(
+              message: state.respondMsg.message,
+              context: context,
+              typeMsg: state.respondMsg.typeMsg);
+        },
+        child:SingleChildScrollView(
+          child: Container(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: size.height * 0.03),
+                _Question12(),
+                _Question34(),
+                _Question57(),
+                _Question810(),
+                _Question11()
+              ],
+            ),
+          ),
+        )
     );
   }
 }
@@ -113,7 +139,17 @@ class _Question12Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: []);
+    return BlocBuilder<SpeakingCubit, SpeakingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part1 != current.remoteData.part1 ||
+          previous.localData.part1 != current.localData.part1,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part1, state.remoteData.part1, 'q12',
+                numQ: 2));
+      },
+    );
   }
 }
 
@@ -189,7 +225,17 @@ class _Question34Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: []);
+    return BlocBuilder<SpeakingCubit, SpeakingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part2 != current.remoteData.part2 ||
+          previous.localData.part2 != current.localData.part2,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part2, state.remoteData.part2, 'q34',
+                numQ: 2));
+      },
+    );
   }
 }
 
@@ -268,7 +314,17 @@ class _Question57Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: []);
+    return BlocBuilder<SpeakingCubit, SpeakingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part3 != current.remoteData.part3 ||
+          previous.localData.part3 != current.localData.part3,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part3, state.remoteData.part3, 'q57',
+                numQ: 3));
+      },
+    );
   }
 }
 
@@ -350,7 +406,17 @@ class _Question810Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: []);
+    return BlocBuilder<SpeakingCubit, SpeakingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part4 != current.remoteData.part4 ||
+          previous.localData.part4 != current.localData.part4,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part4, state.remoteData.part4, 'q810',
+                numQ: 3));
+      },
+    );
   }
 }
 
@@ -423,7 +489,17 @@ class _Question11Test extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: []);
+    return BlocBuilder<SpeakingCubit, SpeakingState>(
+      buildWhen: (previous, current) =>
+      previous.remoteData.part5 != current.remoteData.part5 ||
+          previous.localData.part5 != current.localData.part5,
+      builder: (BuildContext context, state) {
+        return Column(
+            children: getTest(
+                state.localData.part5, state.remoteData.part5, 'q11',
+                numQ: 1));
+      },
+    );
   }
 }
 
@@ -484,4 +560,36 @@ class _QuestionbonusTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(children: []);
   }
+}
+
+List<Test> getTest(List<String> localData, List<String> remoteData, String part,
+    {int? numQ}) {
+  List<Test> tests = [];
+  for (var element in localData) {
+    tests.add(Test(
+      title: (tests.length + 1).toString(),
+      testPage: SpeakingTestPage(
+        title: (tests.length + 1).toString(),
+        fileName: element,
+        part: part,
+        isDownloaded: true,
+        numQuestion: numQ == null ? numQ : numQ + 1,
+      ),
+    ));
+  }
+  for (var element in remoteData) {
+    if (localData.contains(element)) continue;
+    tests.add(Test(
+      title: (tests.length + 1).toString(),
+      testPage: SpeakingTestPage(
+        title: (tests.length + 1).toString(),
+        fileName: element,
+        part: part,
+        isDownloaded: false,
+        numQuestion: numQ == null ? numQ : numQ + 1,
+      ),
+    ));
+  }
+
+  return tests;
 }

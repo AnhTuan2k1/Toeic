@@ -12,4 +12,12 @@ abstract class AppConvert {
     ].join(':');
   }
 
+  static String formatDurationSeconds(int duration){
+    String twoDigits(int n) => n.toString().padLeft(2, '0');
+    final hours = twoDigits((duration/(216000)).floor());
+    final minutes = twoDigits((duration/3600).floor());
+    final seconds = twoDigits(duration.remainder(60));
+    return [hours, minutes, seconds].join(':');
+  }
+
 }
