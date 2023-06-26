@@ -322,7 +322,7 @@ class _Question57Test extends StatelessWidget {
         return Column(
             children: getTest(
                 state.localData.part3, state.remoteData.part3, 'q57',
-                numQ: 3));
+                numQ: 3 + 1));
       },
     );
   }
@@ -414,7 +414,7 @@ class _Question810Test extends StatelessWidget {
         return Column(
             children: getTest(
                 state.localData.part4, state.remoteData.part4, 'q810',
-                numQ: 3));
+                numQ: 3 + 1));
       },
     );
   }

@@ -107,54 +107,53 @@ class _PreparationBox extends StatelessWidget {
     return isPreparing != 1 && isPreparing != 0
         ? const SizedBox()
         : Column(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(2.0),
-              color: Colors.black,
-              child: Column(
-                children: [
-                  const SizedBox(height: 2),
-                  isPreparing == 1
-                      ? const Text('PREPARATION TIME',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500))
-                      : const Text('RESPONSE TIME',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w500)),
-                  const SizedBox(height: 2),
-                  Container(
-                    color: Colors.white,
-                    width: 185,
-                    child: Builder(builder: (context) {
-                      final seconds = context.select(
-                          (TimerBloc bloc) => bloc.state.duration);
-                      return Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Text(
-                          AppConvert.formatDurationSeconds(seconds),
-                          style: TextStyle(fontSize: 20),
-                          textAlign: TextAlign.center,
-                        ),
-                      );
-                    }),
-                  )
-                ],
+            children: [
+              Container(
+                padding: const EdgeInsets.all(2.0),
+                color: Colors.black,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 2),
+                    isPreparing == 1
+                        ? const Text('PREPARATION TIME',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500))
+                        : const Text('RESPONSE TIME',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w500)),
+                    const SizedBox(height: 2),
+                    Container(
+                      color: Colors.white,
+                      width: 185,
+                      child: Builder(builder: (context) {
+                        final seconds = context
+                            .select((TimerBloc bloc) => bloc.state.duration);
+                        return Padding(
+                          padding: const EdgeInsets.all(1.0),
+                          child: Text(
+                            AppConvert.formatDurationSeconds(seconds),
+                            style: TextStyle(fontSize: 20),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }),
+                    )
+                  ],
+                ),
               ),
-            ),
-            TextButton(
-                onPressed: () => context
-                    .read<TimerBloc>()
-                    .add(TimerTicked(duration: 0)),
-                child: Text(
-                  'Skip The Time',
-                  style: TextStyle(fontSize: 18),
-                ))
-          ],
-        );
+              TextButton(
+                  onPressed: () =>
+                      context.read<TimerBloc>().add(TimerTicked(duration: 0)),
+                  child: Text(
+                    'Skip The Time',
+                    style: TextStyle(fontSize: 18),
+                  ))
+            ],
+          );
   }
 }
 
@@ -175,9 +174,7 @@ class _ImageAndContent extends StatelessWidget {
               state.examQuestion.questions[state.currentQuestion].title,
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
-              height: 10,
-            ),
+            const SizedBox(height: 10),
             image == null ? const SizedBox() : Image.memory(image),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
@@ -252,7 +249,11 @@ class _Direction extends StatelessWidget {
     return BlocSelector<SpeakingTestCubit, SpeakingTestState, int>(
         selector: (state) => state.process,
         builder: (context, state) {
-          if (state != 1) return const SizedBox();
+          if (state != 1 &&
+              state != 20 &&
+              state != 39 &&
+              state != 71 &&
+              state != 108) return const SizedBox();
           return Stack(
             children: [
               Container(
@@ -264,12 +265,10 @@ class _Direction extends StatelessWidget {
                   child: Column(
                     children: [
                       const SizedBox(width: double.infinity, height: 30),
-                      FittedBox(
-                        child: Text(
-                          SpeakingDirectionContent.getTitle(part),
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.w700),
-                        ),
+                      Text(
+                        SpeakingDirectionContent.getTitle(part),
+                        style: const TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w700),
                       ),
                       const SizedBox(height: 20),
                       Text(
