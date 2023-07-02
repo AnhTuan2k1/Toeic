@@ -5,12 +5,10 @@ class LessonPage extends StatelessWidget {
   const LessonPage(
   {super.key,
   this.content = const ['', ''],
-  this.title = '',
-  this.heroId = ''});
+  this.title = ''});
 
   final String title;
   final List<String> content;
-  final String heroId;
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +22,7 @@ class LessonPage extends StatelessWidget {
         actions: [
           Padding(
               padding: EdgeInsets.all(5),
-              child: Hero(
-                  tag: heroId, child: Image.asset(AppResources.images.book)))
+              child: Image.asset(AppResources.images.book))
         ],
       ),
       body: SafeArea(

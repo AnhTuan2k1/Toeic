@@ -3,15 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:toeic/bloc/listening/listening_cubit.dart';
 import 'package:toeic/bloc/reading/reading_cubit.dart';
 import 'package:toeic/bloc/speaking/speaking_cubit.dart';
+import 'package:toeic/bloc/writing/writing_cubit.dart';
 import 'package:toeic/presentation/screen/home/listening/listening_test_page.dart';
 import 'package:toeic/presentation/screen/home/reading/reading_test_page.dart';
 import 'package:toeic/presentation/screen/home/speaking/speaking_test_page.dart';
 import 'package:toeic/presentation/screen/home/widget/dialog.dart';
 import 'package:toeic/presentation/screen/home/widget/test_page.dart';
+import 'package:toeic/presentation/screen/home/writing/writing_test_page.dart';
 import 'package:toeic/src/app_resources.dart';
 
 class Test extends StatelessWidget {
-  const Test(
+  Test(
       {super.key,
       this.title = '',
       this.testPage = const TestPage(
@@ -19,7 +21,7 @@ class Test extends StatelessWidget {
         part: '',
       )});
 
-  final String title;
+  String title;
   final TestPage testPage;
 
   @override
@@ -70,6 +72,17 @@ class Test extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => testPage))
                 })
               }
+              else if(testPage is WritingTestPage){
+                  context
+                      .read<WritingCubit>()
+                      .downloadData(testPage.fileName, testPage.part)
+                      .then((value) => {
+                    Navigator.of(context).pop(),
+                    if (value)
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => testPage))
+                  })
+                }
             else Navigator.of(context).pop(),
 
           }

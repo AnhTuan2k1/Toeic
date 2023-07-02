@@ -330,7 +330,12 @@ class _ImageAndContent extends StatelessWidget {
                 style: const TextStyle(fontSize: 15),
               ),
             ),
-            image == null ? const SizedBox() : Image.memory(image)
+            image == null ? const SizedBox() : AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                child: Image.memory(
+                  image,
+                  key: ValueKey<String>(image.toString()),
+                ))
           ],
         );
       },

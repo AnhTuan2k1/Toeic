@@ -81,7 +81,7 @@ class _AnswerCardsState extends State<AnswerCards> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: const [
                   Padding(
-                      padding: EdgeInsets.all(15), child: Text('Explanation:')),
+                      padding: EdgeInsets.all(16), child: Text('Explanation:')),
                   Padding(
                     padding: EdgeInsets.only(right: 8),
                     child: Icon(Icons.arrow_drop_up),

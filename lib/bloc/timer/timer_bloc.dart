@@ -32,12 +32,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
     return super.close();
   }
 
-  @override
-  void onChange(Change<TimerState> change) {
-    print(change);
-    super.onChange(change);
-  }
-
   void _onStarted(TimerStarted event, Emitter<TimerState> emit) {
     emit(TimerRunInProgress(event.duration));
     _tickerSubscription?.cancel();

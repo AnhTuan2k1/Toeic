@@ -41,14 +41,14 @@ class SpeakingForm extends StatelessWidget {
     Size size = MediaQuery.of(context).size;
     return BlocListener<SpeakingCubit, SpeakingState>(
         listenWhen: (previous, current) =>
-        previous.respondMsg != current.respondMsg,
+            previous.respondMsg != current.respondMsg,
         listener: (BuildContext context, state) {
           MySnackBar.showSnackBar(
               message: state.respondMsg.message,
               context: context,
               typeMsg: state.respondMsg.typeMsg);
         },
-        child:SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -62,8 +62,7 @@ class SpeakingForm extends StatelessWidget {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }
 
@@ -141,7 +140,7 @@ class _Question12Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeakingCubit, SpeakingState>(
       buildWhen: (previous, current) =>
-      previous.remoteData.part1 != current.remoteData.part1 ||
+          previous.remoteData.part1 != current.remoteData.part1 ||
           previous.localData.part1 != current.localData.part1,
       builder: (BuildContext context, state) {
         return Column(
@@ -196,7 +195,8 @@ class _Question34 extends StatelessWidget {
               title: 'Scoring & Guide to answer',
               heroId: '_Question34_lesson2',
               child: Scoring(
-                scoringKey: '• All criteria in question 1, 2\n• grammar\n• vocabulary\n• cohesion',
+                scoringKey:
+                    '• All criteria in question 1, 2\n• grammar\n• vocabulary\n• cohesion',
                 scoringContent: LessonContentSpeaking.question34.lesson21_VN,
                 guideToAnswer: LessonContentSpeaking.question34.lesson22_VN,
               ),
@@ -227,7 +227,7 @@ class _Question34Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeakingCubit, SpeakingState>(
       buildWhen: (previous, current) =>
-      previous.remoteData.part2 != current.remoteData.part2 ||
+          previous.remoteData.part2 != current.remoteData.part2 ||
           previous.localData.part2 != current.localData.part2,
       builder: (BuildContext context, state) {
         return Column(
@@ -285,7 +285,8 @@ class _Question57 extends StatelessWidget {
               title: 'Scoring & Guide to answer',
               heroId: '_Question57_lesson2',
               child: Scoring(
-                scoringKey: '• All criteria in question 1, 2\n• relevance of content\n• completeness of content',
+                scoringKey:
+                    '• All criteria in question 1, 2\n• relevance of content\n• completeness of content',
                 scoringContent: LessonContentSpeaking.question57.lesson21_VN,
                 guideToAnswer: LessonContentSpeaking.question57.lesson22_VN,
               ),
@@ -316,7 +317,7 @@ class _Question57Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeakingCubit, SpeakingState>(
       buildWhen: (previous, current) =>
-      previous.remoteData.part3 != current.remoteData.part3 ||
+          previous.remoteData.part3 != current.remoteData.part3 ||
           previous.localData.part3 != current.localData.part3,
       builder: (BuildContext context, state) {
         return Column(
@@ -408,7 +409,7 @@ class _Question810Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeakingCubit, SpeakingState>(
       buildWhen: (previous, current) =>
-      previous.remoteData.part4 != current.remoteData.part4 ||
+          previous.remoteData.part4 != current.remoteData.part4 ||
           previous.localData.part4 != current.localData.part4,
       builder: (BuildContext context, state) {
         return Column(
@@ -491,7 +492,7 @@ class _Question11Test extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<SpeakingCubit, SpeakingState>(
       buildWhen: (previous, current) =>
-      previous.remoteData.part5 != current.remoteData.part5 ||
+          previous.remoteData.part5 != current.remoteData.part5 ||
           previous.localData.part5 != current.localData.part5,
       builder: (BuildContext context, state) {
         return Column(
@@ -567,7 +568,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   List<Test> tests = [];
   for (var element in localData) {
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: SpeakingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -580,7 +581,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   for (var element in remoteData) {
     if (localData.contains(element)) continue;
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: SpeakingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -591,5 +592,6 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
     ));
   }
 
-  return tests;
+  return tests..sort((a, b) => a.testPage.fileName.compareTo(b.testPage.fileName))
+    ..forEach((element) => element.title = '${tests.indexOf(element) + 1}');
 }

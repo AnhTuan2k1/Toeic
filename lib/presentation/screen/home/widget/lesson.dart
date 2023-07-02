@@ -23,12 +23,9 @@ class Lesson extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 15, 10, 15),
             child: Row(
               children: [
-                Hero(
-                  tag: lessonPage.heroId,
-                  child: Image.asset(
-                    AppResources.images.book,
-                    width: size.width * 0.06,
-                  ),
+                Image.asset(
+                  AppResources.images.book,
+                  width: size.width * 0.06,
                 ),
                 const SizedBox(width: 10),
                 Expanded(

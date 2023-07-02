@@ -99,6 +99,19 @@ class FirebaseRepository {
         part5: await q11);
   }
 
+  Future<ExamData> readWritingFile() async {
+    final q15 = _listAllFile('/ToeicTest/writing/q15');
+    final q67 = _listAllFile('/ToeicTest/writing/q67');
+    final q8 = _listAllFile('/ToeicTest/writing/q8');
+
+    return ExamData(
+        part1: await q15,
+        part2: await q67,
+        part3: await q8,
+        part4: const [],
+        part5: const []);
+  }
+
   Future<File> downloadListeningTest(
       {required String part, required String fileName}) async {
     count = 0;
@@ -229,7 +242,41 @@ class FirebaseRepository {
 
     //write file to internal storage
     return getIt<InternalStorage>().writeTestFile(filePath, exam);
+  }
 
+  Future<File> downloadWritingTest(
+      {required String part, required String fileName}) async {
+    count = 0;
+    controller.add(count);
+
+    // download file
+    String filePath = '/ToeicTest/writing/$part/$fileName';
+    final data = await _downloadInMemories(filePath);
+
+    ++count;
+    controller.add(++count);
+
+    // Read the file
+    String jsonString = utf8.decode(data);
+    dynamic contents = jsonDecode(jsonString);
+    final exam = ExamQuestion.fromJson(contents);
+
+    //download image
+    final questions = exam.questions;
+    if (exam.id != '') {
+      for (int i = 0; i < questions.length; i++) {
+        if (questions[i].image != null) {
+          String path =
+              '${exam.id}/image/${questions[i].id}${questions[i].image}';
+          await _downloadAndSaveFile(path)
+              .then((value) => controller.add(++count));
+          questions[i].image = path;
+        }
+      }
+    }
+
+    //write file to internal storage
+    return getIt<InternalStorage>().writeTestFile(filePath, exam);
   }
 
 

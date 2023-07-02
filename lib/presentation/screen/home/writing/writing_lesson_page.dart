@@ -8,12 +8,10 @@ class WritingLessonPage extends LessonPage {
   const WritingLessonPage(
   {super.key,
   this.title = '',
-  this.heroId = '',
   this.child,
   });
 
   final String title;
-  final String heroId;
   final Widget? child;
 
   @override
@@ -28,8 +26,7 @@ class WritingLessonPage extends LessonPage {
         actions: [
           Padding(
               padding: EdgeInsets.all(5),
-              child: Hero(
-                  tag: heroId, child: Image.asset(AppResources.images.book)))
+              child: Image.asset(AppResources.images.book))
         ],
       ),
       body: SafeArea(

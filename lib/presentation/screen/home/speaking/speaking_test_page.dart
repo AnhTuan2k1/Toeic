@@ -55,9 +55,11 @@ class SpeakingTestForm extends StatelessWidget {
           listenWhen: (previous, current) =>
               previous.countdown != current.countdown,
           listener: (BuildContext context, state) {
-            context
-                .read<TimerBloc>()
-                .add(TimerStarted(duration: state.countdown));
+            if(state.countdown > 0) {
+              context
+                  .read<TimerBloc>()
+                  .add(TimerStarted(duration: state.countdown));
+            }
           },
         ),
         BlocListener<TimerBloc, TimerState>(
@@ -175,7 +177,12 @@ class _ImageAndContent extends StatelessWidget {
               style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            image == null ? const SizedBox() : Image.memory(image),
+            image == null ? const SizedBox() : AnimatedSwitcher(
+                duration: const Duration(milliseconds: 400),
+                child: Image.memory(
+                  image,
+                  key: ValueKey<String>(image.toString()),
+                )),
             Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Text(

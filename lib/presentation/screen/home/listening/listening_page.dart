@@ -79,7 +79,6 @@ class Part1 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Predict what you will hear',
-              heroId: 'part1_lesson1',
               content: [
                 LessonContentListening.part1.lesson11_VN,
                 LessonContentListening.part1.lesson12_VN
@@ -90,7 +89,6 @@ class Part1 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Listen for correct verb',
-              heroId: 'part1_lesson2',
               content: [
                 LessonContentListening.part1.lesson21_VN,
                 LessonContentListening.part1.lesson22_VN
@@ -101,7 +99,6 @@ class Part1 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Listen for details',
-              heroId: 'part1_lesson3',
               content: [
                 LessonContentListening.part1.lesson31_VN,
                 LessonContentListening.part1.lesson32_VN
@@ -112,7 +109,6 @@ class Part1 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Listen for prepositions and similar sounds',
-              heroId: 'part1_lesson4',
               content: [
                 LessonContentListening.part1.lesson41_VN,
                 LessonContentListening.part1.lesson42_VN
@@ -160,7 +156,6 @@ class Part2 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Answering direct question',
-              heroId: 'part2_lesson1',
               content: [
                 LessonContentListening.part2.lesson11_VN,
                 LessonContentListening.part2.lesson12_VN
@@ -171,7 +166,6 @@ class Part2 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Time and location structures',
-              heroId: 'part2_lesson2',
               content: [
                 LessonContentListening.part2.lesson21_VN,
                 LessonContentListening.part2.lesson22_VN
@@ -182,7 +176,6 @@ class Part2 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Languages used in requests, offers and opinions',
-              heroId: 'part2_lesson3',
               content: [
                 LessonContentListening.part2.lesson31_VN,
                 LessonContentListening.part2.lesson32_VN
@@ -193,7 +186,6 @@ class Part2 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Dealing with factual question',
-              heroId: 'part2_lesson4',
               content: [
                 LessonContentListening.part2.lesson41_VN,
                 LessonContentListening.part2.lesson42_VN
@@ -241,7 +233,6 @@ class Part3 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
-              heroId: 'part3_lesson1',
               content: [
                 LessonContentListening.part3.lesson11_VN,
                 LessonContentListening.part3.lesson12_VN
@@ -252,8 +243,7 @@ class Part3 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Word distractors',
-              heroId: 'part3_lesson2',
-              content: [
+             content: [
                 LessonContentListening.part3.lesson21_VN,
                 LessonContentListening.part3.lesson22_VN
               ],
@@ -263,7 +253,6 @@ class Part3 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Using vocabulary clues',
-              heroId: 'part3_lesson3',
               content: [
                 LessonContentListening.part3.lesson31_VN,
                 LessonContentListening.part3.lesson32_VN
@@ -274,7 +263,6 @@ class Part3 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Saying "No" and first exchange',
-              heroId: 'part3_lesson4',
               content: [
                 LessonContentListening.part3.lesson41_VN,
                 LessonContentListening.part3.lesson42_VN
@@ -322,7 +310,6 @@ class Part4 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Skimming to predict context before listenning',
-              heroId: 'part4_lesson1',
               content: [
                 LessonContentListening.part4.lesson11_VN,
                 LessonContentListening.part4.lesson12_VN
@@ -333,7 +320,6 @@ class Part4 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: '"What" questions',
-              heroId: 'part4_lesson2',
               content: [
                 LessonContentListening.part4.lesson21_VN,
                 LessonContentListening.part4.lesson22_VN
@@ -344,7 +330,6 @@ class Part4 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Restatement/Questions with numbers and quantities',
-              heroId: 'part4_lesson3',
               content: [
                 LessonContentListening.part4.lesson31_VN,
                 LessonContentListening.part4.lesson32_VN
@@ -355,7 +340,6 @@ class Part4 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Restatement involving "how" and "Why" questions',
-              heroId: 'part4_lesson4',
               content: [
                 LessonContentListening.part4.lesson41_VN,
                 LessonContentListening.part4.lesson42_VN
@@ -393,7 +377,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   List<Test> tests = [];
   for (var element in localData) {
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: ListeningTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -406,7 +390,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   for (var element in remoteData) {
     if (localData.contains(element)) continue;
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: ListeningTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -417,5 +401,6 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
     ));
   }
 
-  return tests;
+  return tests..sort((a, b) => a.testPage.fileName.compareTo(b.testPage.fileName))
+    ..forEach((element) => element.title = '${tests.indexOf(element) + 1}');
 }

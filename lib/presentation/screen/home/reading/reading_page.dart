@@ -77,7 +77,6 @@ class Part5 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Part of speech',
-              heroId: 'part5_lesson1',
               content: [
                 LessonContentReading.part5.lesson11_VN,
                 LessonContentReading.part5.lesson12_VN
@@ -88,7 +87,6 @@ class Part5 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Gerunds & Infinitives',
-              heroId: 'part5_lesson2',
               content: [
                 LessonContentReading.part5.lesson21_VN,
                 LessonContentReading.part5.lesson22_VN
@@ -99,7 +97,6 @@ class Part5 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Suffixes and Prefixes',
-              heroId: 'part5_lesson3',
               content: [
                 LessonContentReading.part5.lesson31_VN,
                 LessonContentReading.part5.lesson32_VN
@@ -109,7 +106,6 @@ class Part5 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Pronouns',
-              heroId: 'part5_lesson4',
               content: [
                 LessonContentReading.part5.lesson41_VN,
                 LessonContentReading.part5.lesson42_VN
@@ -157,7 +153,6 @@ class Part6 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Using context to choose the correct verb form',
-              heroId: 'part6_lesson1',
               content: [
                 LessonContentReading.part6.lesson11_VN,
                 LessonContentReading.part6.lesson12_VN
@@ -168,7 +163,6 @@ class Part6 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Choosing correct part of speech',
-              heroId: 'part6_lesson2',
               content: [
                 LessonContentReading.part6.lesson21_VN,
                 LessonContentReading.part6.lesson22_VN
@@ -179,7 +173,6 @@ class Part6 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Using clues to choose correct verb form',
-              heroId: 'part6_lesson3',
               content: [
                 LessonContentReading.part6.lesson31_VN,
                 LessonContentReading.part6.lesson32_VN
@@ -190,7 +183,6 @@ class Part6 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Prepositions & Conjunctions',
-              heroId: 'part6_lesson4',
               content: [
                 LessonContentReading.part6.lesson41_VN,
                 LessonContentReading.part6.lesson42_VN
@@ -239,7 +231,6 @@ class Part7 extends StatelessWidget {
             id: '1',
             lessonPage: LessonPage(
               title: 'Scanning',
-              heroId: 'part7_lesson1',
               content: [
                 LessonContentReading.part7.lesson11_VN,
                 LessonContentReading.part7.lesson12_VN
@@ -250,7 +241,6 @@ class Part7 extends StatelessWidget {
             id: '2',
             lessonPage: LessonPage(
               title: 'Answering vocabulary question annd inferring the meaning',
-              heroId: 'part7_lesson2',
               content: [
                 LessonContentReading.part7.lesson21_VN,
                 LessonContentReading.part7.lesson22_VN
@@ -261,7 +251,6 @@ class Part7 extends StatelessWidget {
             id: '3',
             lessonPage: LessonPage(
               title: 'Answering "NOT" questions, question with name, number, date and time',
-              heroId: 'part7_lesson3',
               content: [
                 LessonContentReading.part7.lesson31_VN,
                 LessonContentReading.part7.lesson32_VN
@@ -272,7 +261,6 @@ class Part7 extends StatelessWidget {
             id: '4',
             lessonPage: LessonPage(
               title: 'Dealing with chart, tables, form and double, triple passages',
-              heroId: 'part7_lesson4',
               content: [
                 LessonContentReading.part7.lesson41_VN,
                 LessonContentReading.part7.lesson42_VN
@@ -310,7 +298,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   List<Test> tests = [];
   for (var element in localData) {
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: ReadingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -323,7 +311,7 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
   for (var element in remoteData) {
     if (localData.contains(element)) continue;
     tests.add(Test(
-      title: (tests.length + 1).toString(),
+      title: element,
       testPage: ReadingTestPage(
         title: (tests.length + 1).toString(),
         fileName: element,
@@ -334,5 +322,6 @@ List<Test> getTest(List<String> localData, List<String> remoteData, String part,
     ));
   }
 
-  return tests;
+  return tests..sort((a, b) => a.testPage.fileName.compareTo(b.testPage.fileName))
+    ..forEach((element) => element.title = '${tests.indexOf(element) + 1}');
 }
